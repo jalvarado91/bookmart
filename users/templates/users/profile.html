@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+{% block title %}My profile | {{ block.super}}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <hr>
+    <h1 class="text-center">My profile</h1>
+    <div class="row text-center justify-content-lg-center">
+        <div class="col-md-6">
+            <p>Username : {{ user }}</p>
+            <div class="text-center">
+                <img src="{% static 'img/user.png' %}" class="rounded" alt="...">
+            </div>
+            <p>First name : {% if user.first_name %} {{ user.first_name }} {% else %} Need to be entered {% endif %}</p>
+            <p>Last name : {% if user.last_name %} {{ user.last_name }} {% else %} Need to be entered {% endif %}</p>
+            <p>Email : {% if user.email %} {{ user.email }} {% else %} Need to be entered {% endif %}</p>
+            <p>more coming soon...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

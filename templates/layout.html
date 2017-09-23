@@ -18,18 +18,27 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
                 <span>☰</span>
             </button>
+           
             <div class="collapse navbar-collapse" id="collapsingNavbar">
-                <ul class="navbar-nav">
-                </ul>
                 <ul class="nav navbar-nav ml-auto">
+                    {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" title="A free Bootstrap theme" href="#">Login</a>
+                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:login' %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" title="A free Bootstrap theme" href="#">Sign Up</a>
+                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:signup' %}">Sign Up</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:logout' %}">Logout</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
+           
         </div>
     </nav>
 	
