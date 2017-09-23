@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load crispy_forms_tags%}
+{% load bootstrap3 %}
 
 {% block title %}Login | {{ block.super}}{% endblock %}
 
@@ -36,7 +36,7 @@
                     </div>
                 </div>
             -->
-            {{ form|crispy }}
+            {% bootstrap_form form %}
             {% csrf_token %}
              <hr>
                     <input class="btn btn-lg btn-success submit" type="submit" value="Login">
