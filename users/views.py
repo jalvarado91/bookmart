@@ -8,13 +8,14 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, DetailView
 #from crispy_forms.helper import FormHelper
 
 from . import forms
 """
-class ProfileView(FormView, models.Model):
+class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'users/profile.html'
+
 def get_user_profile(request, username):
     user = User.objects.get(username=username)
     return render(request, 'users/user_profile.html', {"user": user})
@@ -22,7 +23,10 @@ def get_user_profile(request, username):
 
 
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.user.is_authenticated:
+        return render(request, 'users/profile.html')
+    else:
+        return HttpResponseRedirect(reverse('home'))
 
 
 class LogoutView(LoginRequiredMixin, FormView):
