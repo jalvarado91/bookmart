@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'books',
+<<<<<<< HEAD
+=======
+    'carts'
+>>>>>>> 18f807b5aab1ea029f80750145b3aca555dae4b0
 ]
 CRISPY_TEPLATE_PACK = 'bootstrap4'
 
