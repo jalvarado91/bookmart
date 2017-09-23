@@ -17,9 +17,9 @@ class Book(models.Model):
 	description = models.TextField()
 	genre = models.CharField(max_length=200)
 	price = models.FloatField()
-	rating = models.IntegerField()
+	rating = models.IntegerField(blank=True, null=True)
 	publisher = models.CharField(max_length=100)
 	release_date = models.DateTimeField('publishing date')
 
 	def __str__(self):
-		return self.title + " " + self.author
+		return self.title
