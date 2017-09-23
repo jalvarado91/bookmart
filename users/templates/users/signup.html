@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load crispy_forms_tags %}
+{% load bootstrap3 %}
 {% block title %}Register you new account {{ block.super}}{% endblock %}
 
 {% block content %}
@@ -37,7 +37,7 @@
                 </div>
             </div>
         -->
-                {{ form|crispy }}
+                {% bootstrap_form form %}
                 {% csrf_token %}
                 <div class="form-group">
                     <input class="btn btn-block btn-lg btn-success submit" type="submit" value="Register">
