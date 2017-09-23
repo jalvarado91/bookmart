@@ -29,19 +29,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'crispy_forms',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'users',
-    'books',
-<<<<<<< HEAD
-=======
+    'django.contrib.admin', 'django.contrib.auth',
+    'django.contrib.contenttypes', 'django.contrib.sessions', 'crispy_forms',
+    'django.contrib.messages', 'django.contrib.staticfiles', 'users', 'books',
     'carts'
->>>>>>> 18f807b5aab1ea029f80750145b3aca555dae4b0
 ]
 CRISPY_TEPLATE_PACK = 'bootstrap4'
 
