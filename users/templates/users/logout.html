@@ -3,11 +3,12 @@
 {% block title %}Logout | {{ block.super}}{% endblock %}
 
 {% block content %}
-<div class="container text-center">
-        <div class="row justify-content-lg-center">
-            <div class="align-middle">
-                <h2>Confirm logout</h2>
-                <hr>
+<div class="container col-md-6">
+        <div class="row mt-5">
+            <div>
+                <h1>Are you sure?</h1>
+                <br>
+                <h4 class="mb-3">Confirm Logout</h4>
                 <form method="POST">
                     {{ form.as_p }}
                     {% csrf_token %}
