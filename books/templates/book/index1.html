@@ -1,0 +1,10 @@
+{% if all_books %}
+<h3> This is the list of all books </h3>
+    <ul>
+      {% for book in all_books %}
+      <li><a href= "/books/{{ book.id }}/"> {{ book.title }}</a></li>
+      {% endfor %}
+    <ul>
+{% else %}
+      <h3> You do not have any books </h3>
+{% endif %}
