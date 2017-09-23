@@ -17,6 +17,7 @@
             <p>Last name : {% if user.last_name %} {{ user.last_name }} {% else %} Need to be entered {% endif %}</p>
             <p>Email : {% if user.email %} {{ user.email }} {% else %} Need to be entered {% endif %}</p>
             <p>more coming soon...</p>
+            <div><a class="btn btn-primary" href="{% url 'users:resetpassword' %}" role="button">Change password</a></div>
         </div>
     </div>
 </div>

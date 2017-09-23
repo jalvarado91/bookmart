@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.contrib.auth import logout
+from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -17,11 +18,26 @@ def profile(request):
     return render(request, 'users/profile.html')
 
 
-"""
-class PasswordChangeView(LoginRequiredMixin, Passw):
+@login_required
+def resetpassword(request):
+    form = PasswordChangeForm(user=request.user)
+    success_url = 'users/passwordchanged.html'
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+    return render(request, 'users/resetpassword.html', {
+        'form': form,
+    })
+
+
+class MyPasswordChangeDoneView(PasswordChangeDoneView):
+    form_class = PasswordChangeDoneView
+    template_name = 'users/passwordchanged.html'
     success_url = reverse_lazy('users:profile')
-    template_name = 'users/changepassword.html'
-"""
 
 
 class LogoutView(LoginRequiredMixin, FormView):
