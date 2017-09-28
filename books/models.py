@@ -8,8 +8,9 @@ class Author(models.Model):
 	bio = models.TextField()
 	def __str__(self):
 		return self.name
-
+# esto es una prueba
 # Create your models here.
+
 class Book(models.Model):
 	title = models.CharField(max_length=100)
 	author = models.ManyToManyField(Author)
@@ -22,4 +23,4 @@ class Book(models.Model):
 	release_date = models.DateTimeField('publishing date')
 
 	def __str__(self):
-		return self.title + " " + self.author
+		return self.title + " " + self.title
