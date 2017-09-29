@@ -1,24 +1,45 @@
-{% extends "layout.html" %}
-{% load static from staticfiles %}
-{% load bootstrap3 %}
-{% block title %}My profile | {{ block.super}}{% endblock %}
+{% extends "layout.html" %} 
 
+{% load static from staticfiles %} 
+{% load bootstrap3 %}
+
+
+{% block title %}My profile | {{ block.super}} {% endblock %} 
 {% block content %}
 <div class="container">
     <hr>
     <h1 class="text-center">My profile</h1>
-    <div class="row text-center justify-content-lg-center">
-        <div class="col-md-6">
-            <p>Username : {{ user }}</p>
-            <div class="text-center">
-                <img src="{% static 'img/user.png' %}" class="rounded" alt="...">
+    <hr>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="">
+                <img src="{% static 'img/user.png' %}" class="img-fluid rounded" alt="Responsive image">
             </div>
-            <p>First name : {% if user.first_name %} {{ user.first_name }} {% else %} Need to be entered {% endif %}</p>
-            <p>Last name : {% if user.last_name %} {{ user.last_name }} {% else %} Need to be entered {% endif %}</p>
-            <p>Email : {% if user.email %} {{ user.email }} {% else %} Need to be entered {% endif %}</p>
-            <p>more coming soon...</p>
-            <div><a class="btn btn-primary" href="{% url 'users:resetpassword' %}" role="button">Change password</a></div>
         </div>
+        <div class="col-lg-9">
+            <form method="POST" class="form-horizontal">
+                <div class="col-lg-6">
+                    {% csrf_token %}
+                    {% bootstrap_form form layout='inline' %}
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-4">
+                        <input class="btn btn-block btn-lg btn-success submit" type="submit" value="Save changes">
+                    </div>
+                    <div class="col-lg-3">
+                        <div><a class="btn btn-primary btn-block vcenter" href="{% url 'users:changepassword' %}" role="button">Change password</a></div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div><a class="btn btn-primary btn-block vcenter" href="{% url 'users:creditcards' %}" role="button">Credit cards</a></div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-lg-center">
+
     </div>
 </div>
 {% endblock %}

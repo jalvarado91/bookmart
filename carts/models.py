@@ -7,6 +7,7 @@ from django.db import models
 import books
 import users
 
+
 # Create your models here.
 class Cart(models.Model):
     user = models.ForeignKey(users.models.User)
@@ -16,14 +17,15 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart)
     item = models.ForeignKey(books.models.Book)
     quantity = models.PositiveIntegerField(default=1)
 
-
     def __str__(self):
         return self.item
+
 
 class SavedItem(models.Model):
     cart = models.ForeignKey(Cart)
