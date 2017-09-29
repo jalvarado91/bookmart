@@ -3,14 +3,15 @@
 {% block content %}
 	<div class="container">
         <hr>
-        <div class="row justify-content-lg-center">
+        <div class="row">
             <div class="col-lg-6">
+                <h2>New credit card information</h2>
                 <form method="POST">
-                        {% bootstrap_form form %}
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add credit card">
-                        </div>
+                    {% bootstrap_form form layout='inline' %}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add credit card">
+                    </div>
                 </form>
             </div>
         </div>

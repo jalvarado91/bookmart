@@ -12,7 +12,7 @@ class LogoutForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'nick_name', 'user_name']
+        fields = ['first_name', 'last_name', 'email', 'nick_name', 'user']
 
     def __init__(self, request, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -20,9 +20,7 @@ class UserProfileForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['email'].required = True
-        self.fields['user_name'].required = True
-        #self.fields['nick_name'].required = True
-        #self.fields['nick_name'].help_text = 'Your nickname for the comments'
+        self.fields['user'].required = True
 
     def save(self):
         cleaned_data = self.cleaned_data

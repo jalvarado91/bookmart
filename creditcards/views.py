@@ -12,4 +12,4 @@ def creditcardview(request):
             return redirect('users/profile')
     else:
         form = CreditCardForm(request)
-    return render(request, 'creditcards/creditcards.html', {"form": form})
+    return render(request, 'creditcards/creditcards.html', {'form': form})

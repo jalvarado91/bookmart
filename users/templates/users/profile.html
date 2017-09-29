@@ -18,8 +18,11 @@
         </div>
         <div class="col-lg-9">
             <form method="POST" class="form-horizontal">
-                {% csrf_token %}
-                {% bootstrap_form form layout='inline' %}
+                <div class="col-lg-6">
+                    {% csrf_token %}
+                    {% bootstrap_form form layout='inline' %}
+                </div>
+                
                 <div class="row">
                     <div class="col-lg-4">
                         <input class="btn btn-block btn-lg btn-success submit" type="submit" value="Save changes">
@@ -28,7 +31,7 @@
                         <div><a class="btn btn-primary btn-block vcenter" href="{% url 'users:changepassword' %}" role="button">Change password</a></div>
                     </div>
                     <div class="col-lg-3">
-                        <div><a class="btn btn-primary btn-block vcenter" href="" role="button">Credit cards</a></div>
+                        <div><a class="btn btn-primary btn-block vcenter" href="{% url 'users:creditcards' %}" role="button">Credit cards</a></div>
                     </div>
                 </div>
                 

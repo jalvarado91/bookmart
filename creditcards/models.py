@@ -3,8 +3,8 @@ from users.models import User
 
 
 class CreditCard(models.Model):
-    name = models.CharField(max_length=100)
-    number = models.CharField(max_length=16)
-    expdate = models.CharField(max_length=4)
-    securitycode = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=False)
+    number = models.CharField(max_length=16, blank=False)
+    expdate = models.CharField(max_length=4, blank=False)
+    securitycode = models.IntegerField(blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
