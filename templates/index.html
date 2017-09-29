@@ -1,8 +1,15 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} 
+{% load static %} 
 
 {% block content %}
-	<div class="container mt-4">
-		<h1>Explore Books</h1>
-		
+<div class="container mt-4">
+	<h1 class="mb-4">Explore Books</h1>
+	<div class="row">
+		{% for book in latest_books %}
+		<div class="col-xs-6 col-sm-6 col-md-3">
+			{% include "partials/book.html" %}
+		</div>
+		{% endfor %}
 	</div>
+</div>
 {% endblock %}

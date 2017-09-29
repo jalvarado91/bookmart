@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:500);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,700);
 
 html,
 body {
@@ -21,7 +21,7 @@ body.modal-open {
 hr {
     max-width: 120px;
     border-width: 3px;
-    opacity: 0.08;
+    opacity: 0.8;
     margin-top: 25px;
     margin-bottom: 25px;
 }
@@ -104,11 +104,13 @@ p {
     -webkit-transition: all .4s;
     -moz-transition: all .4s;
     transition: all .4s;
+    font-weight: 500;
 }
 
 .navbar-brand {
     color: #007FFF;
     line-height: 1.90em;
+    font-weight: bold;
     -webkit-transition: padding .2s ease-in;
     -moz-transition: padding .2s ease-in;
     transition: padding .2s ease-in;
@@ -230,4 +232,16 @@ img::selection {
 img::-moz-selection {
     color: #fff;
     background: 0 0;
+}
+
+
+.book-item {
+
+}
+
+.book-item .details a.name {
+    color: #525252;
+}
+.book-item .details a.author {
+    font-size: .9em;
 }

@@ -1,0 +1,15 @@
+{% load static %} 
+
+<div class="book-item">
+  <a href="#">
+    <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+  </a>
+  <div class="details mt-2">
+    <a class="name d-block" href="#">
+      <strong>{{ book.title }}</strong>
+    </a href="#">
+    {% for author in book.author.all|slice:"1" %}
+      <a class="author" href="#">{{ author.name }}</a> 
+    {% endfor %}
+  </div>
+</div>

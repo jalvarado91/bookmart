@@ -17,13 +17,23 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 
 from users import urls as user_urls
 from books import urls as book_urls
+from books.models import Book
+
+class HomePageView(ListView):
+    model = Book
+    template_name = "index.html"
+    def get_context_data(self, **kwargs):
+        context = super(HomePageView, self).get_context_data(**kwargs)
+        context['latest_books'] = Book.objects.all()[:5]
+        return context
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include(user_urls, namespace='users')),
     url(r'^books/', include(book_urls)),
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
+    url(r'^$', HomePageView.as_view(), name='home'),
 ]
