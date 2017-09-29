@@ -1,23 +1,40 @@
-./
+{% extends "layout.html" %} 
+{% load static %} 
+{% block title %}{{ book.title }} Details | {{ block.super}} {% endblock %}
 
-<h1> {{ book.title }}  </h1>
+{% block content %}
+
+<div class="container pt-4">
+    <h1 class="text-center mb-1"> {{ book.title }} </h1>
+    <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
+        <a class="author" href="#"><em>{{ author.name }}</em></a> {% endfor %}
+    </h5>
+
+    <div class="row justify-content-md-center">
+        <div class="col-sm-3">
+            <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+        </div>
+
+        <div class="col-sm-6">
+            <h3> Book Overview </h3>
+            <p> {{ book.description }} </p>
+
+            <h3> Book Details </h3>
+            <p>
+                {{ book.publisher }} <br/> {{ book.genre }} <br/> {{ book.release_date }} <br/>
+
+            </p>
+
+            <h3> Price </h3>
+            <p> {{ book.price }} </p>
+
+            <h3> Book Rating </h3>
+            <p> {{ book.rating }} </p>
+
+            <a href="/books/"> Back to list </a>
+        </div>
+    </div>
 
 
-<h3> Book Overview </h3>
-<p> {{ book.description }}  </p>
-
-<h3> Book Details </h3>
-<p>
-    {{ book.publisher }} <br/>
-    {{ book.genre }} <br/>
-    {{ book.release_date  }} <br/>
-
-</p>
-
-<h3> Price </h3>
-<p> {{ book.price }}  </p>
-
-<h3> Book Rating </h3>
-<p> {{ book.rating }}  </p>
-
-<a href= "/books/"> Back to list </a>
+</div>
+{% endblock %}

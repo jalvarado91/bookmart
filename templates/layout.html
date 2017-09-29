@@ -29,15 +29,14 @@
                         <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:signup' %}">Sign Up</a>
                     </li>
                     {% else %}
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'CartView' %}">
+                            <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> My Cart
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:profile' %}">Profile</a>
                     </li>
-                    <li class="nav-item">
-                            <a class="nav-link" title="A free Bootstrap theme" href="{% url 'CartView' %}">
-                                <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-                                <shop-carticon-caption caption-data="0"></shop-carticon-caption>
-                            </a>
-                        </li>
                     <li class="nav-item">
                             <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:logout' %}">Logout</a>
                     </li>
