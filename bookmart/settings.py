@@ -29,16 +29,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin', 
+    'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes', 
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages', 
-    'django.contrib.staticfiles', 
-    'users', 
+    'creditcards',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'users',
     'books',
-    'carts', 
-    'bootstrap3'
+    'carts',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,5 @@ STATICFILES_DIRS = [
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'users:profile'
 LOGOUT_REDIRECT_URL = 'home'
+
+CART_URL = 'carts:CartView'

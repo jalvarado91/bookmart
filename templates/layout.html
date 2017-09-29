@@ -18,7 +18,7 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
                 <span>☰</span>
             </button>
-           
+
             <div class="collapse navbar-collapse" id="collapsingNavbar">
                 <ul class="nav navbar-nav ml-auto">
                     {% if not user.is_authenticated %}
@@ -33,15 +33,21 @@
                         <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:profile' %}">Profile</a>
                     </li>
                     <li class="nav-item">
+                            <a class="nav-link" title="A free Bootstrap theme" href="{% url 'CartView' %}">
+                                <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
+                                <shop-carticon-caption caption-data="0"></shop-carticon-caption>
+                            </a>
+                        </li>
+                    <li class="nav-item">
                             <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:logout' %}">Logout</a>
                     </li>
                     {% endif %}
                 </ul>
             </div>
-           
+
         </div>
     </nav>
-	
+
 	{% block content %}
 	{% endblock %}
 

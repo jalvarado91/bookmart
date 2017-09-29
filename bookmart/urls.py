@@ -22,6 +22,7 @@ from django.views.generic.list import ListView
 from users import urls as user_urls
 from books import urls as book_urls
 from books.models import Book
+from carts import urls as cart_urls
 
 class HomePageView(ListView):
     model = Book
@@ -31,9 +32,11 @@ class HomePageView(ListView):
         context['latest_books'] = Book.objects.all()[:5]
         return context
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include(user_urls, namespace='users')),
     url(r'^books/', include(book_urls)),
+    url(r'^carts/', include(cart_urls)),
     url(r'^$', HomePageView.as_view(), name='home'),
 ]
