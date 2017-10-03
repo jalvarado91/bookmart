@@ -5,14 +5,9 @@
         <hr>
         <div class="row">
             <div class="col-lg-6">
-                <h2>New credit card information</h2>
-                <form method="POST">
-                    {% bootstrap_form form layout='inline' %}
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add credit card">
-                    </div>
-                </form>
+                    <h1>Credit card: {{ object.name }}</h1>
+                    <p>Crdit card number: {{ object.number }}</p>
+                    <p>Expiration date: {{ object.expdate }}</p>
             </div>
             <div class="col-lg-4 ml-auto">
                  <h4>your credit cards</h4>
