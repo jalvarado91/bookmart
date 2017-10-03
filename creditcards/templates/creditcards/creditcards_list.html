@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load bootstrap3 %}
+{% block content %}
+	<div class="container">
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>New credit card information</h2>
+            </div>
+            <div class="col-lg-4 ml-auto">
+                    <ul>
+                    {% for creditcard in object_list %}
+                        <li>{{ creditcard.name }}</li>
+                    {% empty %}
+                        <li>No credit cards yet.</li>
+                    {% endfor %}
+                    </ul>
+            </div>
+        </div>
+	</div>
+{% endblock %}
