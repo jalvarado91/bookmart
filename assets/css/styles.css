@@ -174,7 +174,7 @@ p {
     .navbar .navbar-brand:focus {
         color: #001A33;
     }
-    
+
     .navbar .navbar-nav > li > a,
     .navbar .navbar-nav> li > a:focus {
         color: #001A33;
@@ -184,7 +184,7 @@ p {
     .navbar .navbar-nav > li > a:hover,
     .navbar .navbar-nav > li > a:focus:hover {
         color: #001A33;
-    }   
+    }
 }
 
 .list-group-item, .card-footer {
@@ -244,4 +244,97 @@ img::-moz-selection {
 }
 .book-item .details a.author {
     font-size: .9em;
+}
+
+/* popup for image */
+/*popup has 900px and want it at center*/
+/*.col-sm-3{
+   width: 900px;
+   margin: auto;
+   text-align: center;
+}*/
+
+/*size of image*/
+.col-sm-3 img{
+   cursor: pointer;
+}
+
+.show{
+   z-index: 999;
+   display: none;
+}
+.show .overlay{  /*this is the popouter the outer space*/
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.66);
+   position: absolute;
+   top: 0;
+   left: 0;
+}
+
+.show .img-show{ /*this is the popinner the inner space*/
+   width: 300px;
+   height: 400px;
+   background: #FFF;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%,-50%);
+   border-radius: 6px 6px 6px 6px;
+   overflow: hidden
+}
+
+.img-show span{
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   z-index: 99;
+   cursor: pointer;
+}
+
+.img-show img{
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+}
+/* to display bio and book overview as tabs */
+.tab-panels{
+    width: 800px;
+    margin: 20px auto;
+
+}
+.tab-panels ul{
+    margin: 0;
+    padding: 0;
+}
+
+.tab-panels ul.tabs li{
+    list-style-type: none;
+    display: inline-block;
+    background: #cccccc;
+    box-shadow: 0.1px 0.1px 0.5px rgba(0, 0, 0, 0.5);
+    color: fff;
+    padding: 10px 30px;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+.tab-panels ul.tabs li.active{
+    background: #999999;
+    transition: background 0.4s linear 0s;
+    border-top: 2px solid #000;
+}
+.tab-panels .panel{
+    display: none;
+    padding: 30px;
+    width: 700px;
+    border: 1px solid #ccc;
+    box-shadow: 0.1px 0.1px 0.5px rgba(0, 0, 0, 0.5);
+    font-family: sans-serif;
+    letter-spacing: 3px;
+    line-height: 25px;
+}
+.tab-panels .panel.active{
+    display: none;
 }
