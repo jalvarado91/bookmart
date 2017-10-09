@@ -7,9 +7,9 @@
 {% block title %}My profile | {{ block.super}} {% endblock %} 
 {% block content %}
 <div class="container">
-    <hr>
+    <br>
     <h1 class="text-center">My profile</h1>
-    <hr>
+    <br>
     <div class="row">
         <div class="col-lg-2">
             <div class="">
@@ -30,8 +30,8 @@
                     <!--list view-->
                     <ul style="list-style-type: none">
                         <li><a href="{% url 'users:changepassword' %}">Change password</a></li>
-                        <li><a href="" >Credit cards</a></li>
-                        <li><a href="" >Shipping addresses</a></li>
+                        <li><a href="{% url 'users:creditcards' %}" >Credit cards</a></li>
+                        <li><a href="{% url 'users:addresses' %}" >Shipping addresses</a></li>
                     </ul>
                 </div>
             </div>

@@ -40,6 +40,10 @@
                     <li class="nav-item">
                             <a class="nav-link" title="A free Bootstrap theme" href="{% url 'users:logout' %}">Logout</a>
                     </li>
+                    <!-- to access the admin account, remove when finished-->
+                    <li class="nav-item">
+                        <a class="nav-link" title="A free Bootstrap theme" href="/admin/">Admin</a>
+                    </li>
                     {% endif %}
                 </ul>
             </div>
@@ -48,7 +52,15 @@
     </nav>
 
 	{% block content %}
-	{% endblock %}
+    {% endblock %}
+
+    <!--
+    <footer class="footer text-center">
+        <div class="container">
+          <span class="text-muted">Software Engineering CEN4010. Team 1.</span>
+        </div>
+    </footer>
+    -->
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>

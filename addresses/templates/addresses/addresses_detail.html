@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% block content %}
 	<div class="container">
-        <hr>
+        <br>
         <div class="row">
             <div class="col-lg-6">
                 <h2>Enter your shipping address</h2>
@@ -10,17 +10,18 @@
                     {% bootstrap_form form layout='inline' %}
                     {% csrf_token %}
                     <div class="form-group">
-                        <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add credit card">
+                        <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add shipping address">
                     </div>
                 </form>
             </div>
             <div class="col-lg-4 ml-auto">
-                 <h4>your addresse</h4>
+                 <h4>your addresses</h4>
                  <ul>
-                     <li>your address 2</li>
-                     <li>your address 2</li>
-                     <li>your address 3</li>
+                     <li>address 2</li>
+                     <li>address 2</li>
+                     <li>address 3</li>
                  </ul>
+                 <a href="{% url 'users:profile' %}">Go back to profile</a>
             </div>
         </div>
 	</div>

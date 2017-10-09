@@ -1,8 +1,8 @@
-from django import forms
-from .models import User
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 import re
+from django import forms
+from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from users.models import Profile
 
 
 class LogoutForm(forms.Form):
@@ -11,19 +11,16 @@ class LogoutForm(forms.Form):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'nick_name', 'user']
+        model = Profile
+        fields = ['first_name', 'last_name', 'email', 'nick_name', 'username']
 
-    def __init__(self, request, *args, **kwargs):
+    def __init__(self, request={}, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.request = request
-        self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
-        self.fields['email'].required = True
-        self.fields['user'].required = True
-
-    def save(self):
-        cleaned_data = self.cleaned_data
+        #self.fields['first_name'].required = True
+        #self.fields['last_name'].required = True
+        #self.fields['email'].required = True
+        #self.fields['user'].required = True
 
     def validate_non_numeric(self, str_exp):
         pattern = re.compile(r"([a-zA-Z]+)")
@@ -44,3 +41,9 @@ class UserProfileForm(forms.ModelForm):
         if not pattern.match(value):
             raise ValidationError('Email format is incorrect')
         return value
+
+
+class SignUpForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Profile
+        fields = UserCreationForm.Meta.fields

@@ -17,14 +17,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='CreditCard',
+            name='Address',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('number', models.CharField(max_length=16, unique=True)),
-                ('expdate', models.CharField(max_length=4)),
-                ('securitycode', models.IntegerField()),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('address1', models.CharField(max_length=100, verbose_name='Address line 1')),
+                ('address2', models.CharField(blank=True, max_length=100, verbose_name='Address line 2')),
+                ('zipcode', models.CharField(max_length=12, verbose_name='Zip / Postal code')),
+                ('city', models.CharField(max_length=150, verbose_name='City')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% load bootstrap3 %}
+{% block title %}Profile Updated{% endblock %}
+{% block content %}
+<div class="container col-md-6">
+    <div class="row mt-5">
+        <div>
+            <h1>Profiled updated succefully</h1>
+            <br>
+            <a href="{% url 'users:profile' %}">Go back to your profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

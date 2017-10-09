@@ -10,7 +10,7 @@ import users
 
 # Create your models here.
 class Cart(models.Model):
-    user = models.ForeignKey(users.models.User)
+    user = models.ForeignKey(users.models.Profile)
     item_count = models.PositiveIntegerField(default=0)
     order_date = models.DateField(null=True)
 
