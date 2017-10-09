@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users',
     'books',
     'carts',
+    'addresses',
     'bootstrap3',
 ]
 

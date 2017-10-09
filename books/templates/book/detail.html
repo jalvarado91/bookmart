@@ -1,5 +1,5 @@
-{% extends "layout.html" %} 
-{% load static %} 
+{% extends "layout.html" %}
+{% load static %}
 {% block title %}{{ book.title }} Details | {{ block.super}} {% endblock %}
 
 {% block content %}
@@ -14,22 +14,27 @@
         <div class="col-sm-3">
             <img id="detail-book-cover" src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
         </div>
+        <!-- this is the code for the popup picture  -->
+        <!-- this div has the box to show the image we want -->
+        <div class ="show">
+            <div class ="overlay"></div>
+            <div class ="img-show">
+                <span>X</span>   <!--span contains X sign refer to close image-->
+                <img src ="">
+            </div>
+        </div>
+
 
         <div class="col-sm-6">
-            <h3> Book Details </h3>
-
-            <p>
-                {{ book.summary }}
-            </p>
+            <h4> Book Details </h4>
             <p>
                 {{ book.publisher }} <br/> {{ book.genre }} <br/> {{ book.release_date }} <br/>
-
             </p>
 
-            <h3> Price </h3>
+            <h4> Price </h4>
             <p> {{ book.price }} </p>
 
-            <h3> Book Rating </h3>
+            <h4> Book Rating </h4>
             <p> {{ book.rating }} </p>
 
             <h3> Book Overview </h3>
@@ -38,8 +43,24 @@
 
             <a href="/books/"> Back to list </a>
         </div>
+
+        <div class="tab-panels">
+            <ul class="tabs">
+              <li rel="panel1" class="active">Book Overview</li>
+              <li rel="panel2">About the author</li>
+            </ul>
+
+            <div id="panel1" class="panel active"><p><em> {{ book.description }} </p></div>
+
+            <div id="panel2" class="panel">
+                <p> {% for author in book.author.all|slice:"1" %}
+                <a class="author"><em>{{ author.bio }}</em></a> {% endfor %} </p>
+            </div>
+        </div>
+
     </div>
 
-
 </div>
+
+
 {% endblock %}
