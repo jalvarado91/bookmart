@@ -12,14 +12,15 @@
 
     <div class="row justify-content-md-center">
         <div class="col-sm-3">
-            <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+            <img id="detail-book-cover" src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
         </div>
 
         <div class="col-sm-6">
-            <h3> Book Overview </h3>
-            <p> {{ book.description }} </p>
-
             <h3> Book Details </h3>
+
+            <p>
+                {{ book.summary }}
+            </p>
             <p>
                 {{ book.publisher }} <br/> {{ book.genre }} <br/> {{ book.release_date }} <br/>
 
@@ -30,6 +31,10 @@
 
             <h3> Book Rating </h3>
             <p> {{ book.rating }} </p>
+
+            <h3> Book Overview </h3>
+            <p> {{ book.description }} </p>
+
 
             <a href="/books/"> Back to list </a>
         </div>

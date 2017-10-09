@@ -29,7 +29,7 @@ class HomePageView(ListView):
     template_name = "index.html"
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['latest_books'] = Book.objects.all()[:5]
+        context['latest_books'] = Book.objects.all()[:8]
         return context
 
 
