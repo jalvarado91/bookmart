@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from addresses.views import AddressDetailView, AddressesListView, addressview
 from . import views
 

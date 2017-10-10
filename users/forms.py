@@ -2,7 +2,7 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from users.models import Profile
+from users.models import Profile, User
 
 
 class LogoutForm(forms.Form):
@@ -11,8 +11,8 @@ class LogoutForm(forms.Form):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = Profile
-        fields = ['first_name', 'last_name', 'email', 'nick_name', 'username']
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'username']
 
     def __init__(self, request={}, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -43,7 +43,21 @@ class UserProfileForm(forms.ModelForm):
         return value
 
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['nick_name']
+
+    def clean_nick_name(self):
+        value = self.cleaned_data['email']
+        pattern = re.compile(
+            r"(^[a-zA-Z_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+        if not pattern.match(value):
+            raise ValidationError('Email format is incorrect')
+        return value
+
+
 class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = Profile
+        model = User
         fields = UserCreationForm.Meta.fields

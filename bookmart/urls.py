@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from django.views.generic import TemplateView
 from django.contrib.auth.views import password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 
 from users import urls as user_urls
@@ -27,7 +26,6 @@ from bookmart.views import HomePageView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include(user_urls, namespace='users')),
-    #url(r'^users/', include('registration.backends.hmac.urls')),
     url(r'^books/', include(book_urls)),
     url(r'^carts/', include(cart_urls)),
     url(r'^$', HomePageView.as_view(), name='home'),
