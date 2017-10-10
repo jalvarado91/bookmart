@@ -2,8 +2,26 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Book, Author
+from .models import Book, Author, Category
 
 # Register your models here.
-admin.site.register(Book)
 admin.site.register(Author)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(Category, CategoryAdmin)
+
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug', 'price',
+                    'stock', 'available', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated']
+    list_editable = ['price', 'stock', 'available']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(Book, BookAdmin)

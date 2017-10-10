@@ -10,7 +10,7 @@ import users
 
 # Create your models here.
 class Cart(models.Model):
-    user = models.ForeignKey(users.models.User)
+    user = models.ForeignKey(users.models.User, null = True)
     item_count = models.PositiveIntegerField(default=0)
     order_date = models.DateField(null=True)
 
@@ -19,8 +19,8 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart)
-    item = models.ForeignKey(books.models.Book)
+    cart = models.ForeignKey(Cart, null = True)
+    item = models.ForeignKey(books.models.Book, null = True)
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
@@ -28,8 +28,8 @@ class CartItem(models.Model):
 
 
 class SavedItem(models.Model):
-    cart = models.ForeignKey(Cart)
-    item = models.ForeignKey(books.models.Book)
+    cart = models.ForeignKey(Cart, null = True)
+    item = models.ForeignKey(books.models.Book, null = True)
 
     def __str__(self):
         return self.item
