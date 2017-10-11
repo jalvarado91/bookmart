@@ -1,56 +1,15 @@
-{% extends "layout.html" %}
-{% load static %}
+{% extends "layout.html" %} 
+{% load static %} 
 
 {% block content %}
-	<div class="container mt-4">
-		<h1 class="mb-4">Explore Books</h1>
-		<div class="row">
-			{% for book in latest_books %}
-				<div class="col-xs-6 col-sm-6 col-md-3">
-					{% include "partials/book.html" %}
-				</div>
-			{% endfor %}
+<div class="container mt-4">
+	<h1 class="mb-4">Explore Books</h1>
+	<div class="row">
+		{% for book in latest_books %}
+		<div class="col-xs-6 col-sm-6 col-md-3">
+			{% include "partials/book.html" %}
 		</div>
+		{% endfor %}
 	</div>
+</div>
 {% endblock %}
-
-<!-- layout code that was working on my end but cant get it to work with current layout and urls -->
-
-<!-- {% extends "layout.html" %}
-{% load static %}
-
-{% block title %}
-  {% if category %}{{ category.name }}
-  {% else %}books{% endif %}
-{% endblock %}
-
-{% block content %}
-  <div id="sidebar">
-    <h3>Genres</h3>
-    <ul>
-      <li {% if not category %} class="selected" {% endif %}>
-        <a href="{% url "book_list" %}">All</a>
-      </li>
-      {% for c in categories %}
-        <li {% if category.slug == c.slug %} class="selected" {% endif %}>
-          <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div id="main" class="book-list">
-    <h1>
-      {% if category %}{{ category.name }}
-      {% else %}Books{% endif %}
-    </h1>
-    {% for book in books %}
-      <div class="item">
-        <a href="{{ book.get_absolute_url }}">
-          <img src="{% if book.image %}{{ book.image.url }}{% else %}{% static " img/no_image.png" %}{% endif %}">
-        </a>
-        <a href="{{ book.get_absolute_url }}">{{ book.name }}</a><br>
-        ${{ book.price }}
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %} -->
