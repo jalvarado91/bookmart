@@ -20,7 +20,7 @@ def profile(request):
         'last_name': request.user.last_name,
         'email': request.user.email,
         'username': request.user.username,
-        #'nick_name': request.user.profile.nick_name,
+        #'nick_name': request.profile.nick_name,
     }
     if request.method == 'POST':
         form = UserProfileForm(request.POST)

@@ -272,9 +272,9 @@ img::-moz-selection {
    left: 0;
 }
 
-.show .img-show{ /*this is the popinner the inner space*/
-   width: 300px;
-   height: 400px;
+.show .img-show { /*this is the popinner the inner space*/
+   width: 400px;
+   height: auto;
    background: #FFF;
    position: absolute;
    top: 50%;
@@ -284,12 +284,17 @@ img::-moz-selection {
    overflow: hidden
 }
 
-.img-show span{
+.show .img-show:after {
+    content: '';
+    padding-bottom: 150%;
+    display: block;
+}
+
+.img-show a {
    position: absolute;
    top: 10px;
    right: 10px;
    z-index: 99;
-   cursor: pointer;
 }
 
 .img-show img{
@@ -300,32 +305,8 @@ img::-moz-selection {
    left: 0;
 }
 /* to display bio and book overview as tabs */
-.tab-panels{
-    width: 800px;
-    margin: 20px auto;
 
-}
-.tab-panels ul{
-    margin: 0;
-    padding: 0;
-}
-
-.tab-panels ul.tabs li{
-    list-style-type: none;
-    display: inline-block;
-    background: #cccccc;
-    box-shadow: 0.1px 0.1px 0.5px rgba(0, 0, 0, 0.5);
-    color: fff;
-    padding: 10px 30px;
-    cursor: pointer;
-    font-family: sans-serif;
-}
-.tab-panels ul.tabs li.active{
-    background: #999999;
-    transition: background 0.4s linear 0s;
-    border-top: 2px solid #000;
-}
-.tab-panels .panel{
+.tab-panels .panel {
     display: none;
     padding: 30px;
     width: 700px;
@@ -336,5 +317,5 @@ img::-moz-selection {
     line-height: 25px;
 }
 .tab-panels .panel.active{
-    display: none;
+    display: block;
 }

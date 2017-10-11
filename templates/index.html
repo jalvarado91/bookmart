@@ -1,15 +1,18 @@
-{% extends "layout.html" %} 
-{% load static %} 
+{% extends "layout.html" %}
+{% load static %}
 
 {% block content %}
-<div class="container mt-4">
-	<h1 class="mb-4">Explore Books</h1>
-	<div class="row">
-		{% for book in latest_books %}
-		<div class="col-xs-6 col-sm-6 col-md-3">
-			{% include "partials/book.html" %}
+	<div class="container mt-4">
+		<h1 class="mb-4">Explore Books</h1>
+		<div class="row">
+			{% for book in latest_books %}
+				<div class="col-xs-6 col-sm-6 col-md-3">
+					{% include "partials/book.html" %}
+				</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
 	</div>
-</div>
 {% endblock %}
+
+layout code that was working on my end but cant get it to work with current layout and urls -->
+

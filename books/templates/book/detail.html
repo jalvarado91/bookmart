@@ -12,23 +12,22 @@
 
     <div class="row justify-content-md-center">
         <div class="col-sm-3">
-            <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+            <img id="detail-book-cover" src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
         </div>
         <!-- this is the code for the popup picture  -->
         <!-- this div has the box to show the image we want -->
-        <div class ="show">
-            <div class ="overlay"></div>
-            <div class ="img-show">
-                <span>X</span>   <!--span contains X sign refer to close image-->
-                <img src ="">
+        <div class="show">
+            <div class="overlay"></div>
+            <div class="img-show">
+                <a href="#" id="close-overlay">
+                    <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </a>
+                <img src="{% static book.cover_url %}" class="img-fluid rounded">
             </div>
         </div>
 
 
         <div class="col-sm-6">
-            <!--<h3> Book Overview </h3>
-            <p> {{ book.description }} </p> -->
-
             <h4> Book Details </h4>
             <p>
                 {{ book.publisher }} <br/> {{ book.genre }} <br/> {{ book.release_date }} <br/>
@@ -40,23 +39,30 @@
             <h4> Book Rating </h4>
             <p> {{ book.rating }} </p>
 
-            <a href="/books/"> Back to list </a>
         </div>
 
-        <div class="tab-panels">
-            <ul class="tabs">
-              <li rel="panel1" class="active">Book Overview</li>
-              <li rel="panel2">About the author</li>
+    </div>
+
+    <div class="row justify-content-md-center mt-4">
+        <div class="col-sm-9 tab-panels">
+            <ul class="tabs nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" rel="panel1" href="#">Book Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a  class="nav-link" rel="panel2" href="#">About the author</a>
+                </li>
             </ul>
 
-            <div id="panel1" class="panel active"><p><em> {{ book.description }} </p></div>
+            <div id="panel1" class="col-xs-12 p-4 panel active">
+                <p><em> {{ book.description }} </p>
+            </div>
 
-            <div id="panel2" class="panel">
+            <div id="panel2" class="col-xs-12 p-4 panel">
                 <p> {% for author in book.author.all|slice:"1" %}
                 <a class="author"><em>{{ author.bio }}</em></a> {% endfor %} </p>
             </div>
         </div>
-
     </div>
 
 </div>
