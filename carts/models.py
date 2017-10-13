@@ -28,8 +28,8 @@ class CartItem(models.Model):
 
 
 class SavedItem(models.Model):
-    cart = models.ForeignKey(Cart, null=True)
-    item = models.ForeignKey(books.models.Book, null=True)
+    cart = models.ForeignKey(Cart)
+    item = models.ForeignKey(books.models.Book)
 
     def __str__(self):
         return self.item
