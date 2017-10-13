@@ -8,25 +8,31 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import FormView, CreateView
-from .forms import UserProfileForm
-
+from users.forms import UserProfileForm, SignUpForm
 from . import forms
 
 
 #from .forms import ProfileForm
 @login_required
 def profile(request):
-    form = UserProfileForm(request)
+    data = {
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'email': request.user.email,
+        'username': request.user.username,
+        #'nick_name': request.profile.nick_name,
+    }
     if request.method == 'POST':
         form = UserProfileForm(request.POST)
+        #assert False, form
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
+            assert False, request.POST
             form.save()
-            return HttpResponseRedirect('/thanks/')
+            return render(request, 'users/profileupdated.html')
+        else:
+            return render(request, 'index.html')
     else:
-        form = UserProfileForm(request)
+        form = UserProfileForm(initial=data)
     return render(request, 'users/profile.html', {'form': form})
 
 
@@ -57,7 +63,7 @@ class LogoutView(LoginRequiredMixin, FormView):
         return HttpResponseRedirect(reverse('home'))
 
 
-class SignupView(CreateView):
-    form_class = UserCreationForm
+class SignUpView(CreateView):
+    form_class = SignUpForm
     template_name = 'users/signup.html'
     success_url = reverse_lazy('users:profile')
