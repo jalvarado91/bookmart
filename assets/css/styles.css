@@ -308,14 +308,30 @@ img::-moz-selection {
 
 .tab-panels .panel {
     display: none;
-    padding: 30px;
-    width: 700px;
-    border: 1px solid #ccc;
-    box-shadow: 0.1px 0.1px 0.5px rgba(0, 0, 0, 0.5);
-    font-family: sans-serif;
-    letter-spacing: 3px;
-    line-height: 25px;
 }
 .tab-panels .panel.active{
     display: block;
+}
+.tab-panels .panel > em{
+    white-space: pre-line;
+}
+
+.rating .star {
+    font-size: 1.1em;
+    color: gold;
+}
+
+.price span {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.review .date {
+    font-size: .9em;
+}
+.review .no-comment {
+    color: #858585;
+}
+.review .comment {
+    white-space: pre-line;
 }
