@@ -68,5 +68,4 @@ def get_review_stats(reviews):
                     "empty": range(5 - review.rating)
                 }
             ))
-    print aggs
     return aggs
