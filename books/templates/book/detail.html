@@ -91,7 +91,7 @@
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
                     <h5 class="reviewer mb-1"> 
-                        By {% if review.author %} {{review.author}} {% else %}Anonymous{% endif %}
+                        By {% if review.author.profile.nick_name %} {{review.author.profile.nick_name}} {% else %}Anonymous{% endif %}
                     </h5>
                     <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
                     <div class="rating mb-2">
