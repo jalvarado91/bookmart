@@ -24,7 +24,7 @@ def book_detail(request, book_id):
         # reviews
         reviews = book.review_set.all().order_by('-created_at')
         reviews_count = book.review_set.count()
-        
+
         avg_rating = book.review_set.aggregate(Avg('rating'))['rating__avg']
         rating_count = book.review_set.aggregate(Count('rating'))['rating__count']
 
@@ -32,10 +32,10 @@ def book_detail(request, book_id):
             range_pos = int(math.floor(avg_rating))
             rating_filled = range(range_pos)
             rating_empty = range(5 - range_pos)
-        else: 
+        else:
             rating_filled = None
             rating_empty = None
-        
+
 
         templ_context = {
             'book': book,
@@ -52,6 +52,21 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
+def author_list(request, author_id):
+
+    try:
+        author = Author.objects.get(pk=author_id)
+        book_list = Book.objects.all().filter(author=author)
+
+        context = {
+            'author' : author,
+            'book_list': book_list
+        }
+    except Author.DoesNotExist:
+        raise Http404("Author does not exist")
+    return render(request, 'book/author.html', context )
+
+
 def get_review_stats(reviews):
     aggs = []
     for review in reviews:
@@ -60,7 +75,7 @@ def get_review_stats(reviews):
                 review,
                 None
             ))
-        else: 
+        else:
             aggs.append((
                 review,
                 {

@@ -7,7 +7,7 @@
 <div class="container pt-4 pb-4">
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
-        <a class="author" href="#"><em>{{ author.name }}</em></a> {% endfor %}
+        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.name }}</em></a> {% endfor %}
     </h5>
 
     <div class="row justify-content-md-center">
@@ -28,10 +28,10 @@
 
 
         <div class="col-sm-6">
-            <h4>Book Details</h4>
+            <!-- <h4>Book Details</h4>  -->
             <p>
-                <strong>Publisher: </strong>{{ book.publisher }} <br/> 
-                <strong>Genre: </strong>{{ book.genre }} <br/> 
+                <strong>Publisher: </strong>{{ book.publisher }} <br/>
+                <strong>Genre: </strong>{{ book.genre }} <br/>
                 <strong>Release Date: </strong>{{ book.release_date|date:"M d Y" }} <br/>
             </p>
 
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <h5>Ratings</h5>  
+            <h5>Ratings</h5>
             <div class="rating">
                 {% if rating_count > 0 %}
                     {% for _ in rating_filled %}
@@ -53,7 +53,7 @@
                     {% endfor %}
                     {% for _ in rating_empty %}
                         <span class="star"><i class="fa fa-star-o"></i></span>
-                    {% endfor %}    
+                    {% endfor %}
                     <span class="ml-2">({{ rating_count }})</span>
                 {% else %}
                     <span>No ratings yet</span>
@@ -86,12 +86,12 @@
                     <em>{{ author.bio }}</em>
                 {% endfor %}
             </div>
-            
+
             <div id="panel3" class="col-xs-12 p-4 panel active">
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
-                    <h5 class="reviewer mb-1"> 
-                        By {% if review.author %} {{review.author}} {% else %}Anonymous{% endif %}
+                    <h5 class="reviewer mb-1">
+                        By {% if review.author.profile.nick_name %} {{review.author.profile.nick_name}} {% else %}Anonymous{% endif %}
                     </h5>
                     <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
                     <div class="rating mb-2">
@@ -102,9 +102,9 @@
                             {% endfor %}
                             {% for _ in stats.empty %}
                                 <span class="star"><i class="fa fa-star-o"></i></span>
-                            {% endfor %}    
+                            {% endfor %}
                         {% else %}
-                            <span>Rating: N/A</span>                       
+                            <span>Rating: N/A</span>
                         {% endif %}
                     </div>
                     {% if False %}
@@ -116,7 +116,7 @@
                     {% else %}
                         <div></div>
                     {% endif %}
-                </div>  
+                </div>
                 {% endfor %}
             </div>
         </div>

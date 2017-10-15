@@ -30,7 +30,7 @@ class Book(models.Model):
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-    rating = models.PositiveIntegerField(blank=True, null=True)    
+    rating = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
