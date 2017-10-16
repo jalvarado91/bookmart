@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<div class="container pt-4">
+<div class="container pt-4 pb-4">
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
         <a class="author" href="#"><em>{{ author.name }}</em></a> {% endfor %}
     </h5>
 
     <div class="row justify-content-md-center">
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-2">
             <img id="detail-book-cover" src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
         </div>
         <!-- this is the code for the popup picture  -->
@@ -28,39 +28,96 @@
 
 
         <div class="col-sm-6">
-            <h4> Book Details </h4>
+            <h4>Book Details</h4>
             <p>
-                {{ book.publisher }} <br/> {{ book.genre }} <br/> {{ book.release_date }} <br/>
+                <strong>Publisher: </strong>{{ book.publisher }} <br/> 
+                <strong>Genre: </strong>{{ book.genre }} <br/> 
+                <strong>Release Date: </strong>{{ book.release_date|date:"M d Y" }} <br/>
             </p>
 
-            <h4> Price </h4>
-            <p> {{ book.price }} </p>
+            <div class="price mb-3">
+                <h5>Price</h5>
+                <div class="d-flex align-items-center">
+                    <span class="mr-3">${{ book.price }} </span>
+                    <a href="#" class="btn btn-secondary">
+                        Add to Cart
+                    </a>
+                </div>
+            </div>
 
-            <h4> Book Rating </h4>
-            <p> {{ book.rating }} </p>
-
+            <h5>Ratings</h5>  
+            <div class="rating">
+                {% if rating_count > 0 %}
+                    {% for _ in rating_filled %}
+                        <span class="star"><i class="fa fa-star"></i></span>
+                    {% endfor %}
+                    {% for _ in rating_empty %}
+                        <span class="star"><i class="fa fa-star-o"></i></span>
+                    {% endfor %}    
+                    <span class="ml-2">({{ rating_count }})</span>
+                {% else %}
+                    <span>No ratings yet</span>
+                {% endif %}
+            </div>
         </div>
 
     </div>
 
     <div class="row justify-content-md-center mt-4">
-        <div class="col-sm-10 tab-panels">
+        <div class="col-sm-9 tab-panels">
             <ul class="tabs nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" rel="panel1" href="#">Book Overview</a>
+                    <a class="nav-link " rel="panel1" href="#">Book Overview</a>
                 </li>
                 <li class="nav-item">
                     <a  class="nav-link" rel="panel2" href="#">About the author</a>
                 </li>
+                <li class="nav-item">
+                    <a  class="nav-link active" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
+                </li>
             </ul>
 
-            <div id="panel1" class="col-xs-12 p-4 panel active">
-                <p><em> {{ book.description }} </p>
+            <div id="panel1" class="col-xs-12 p-4 panel ">
+                <em> {{ book.description }} </em>
             </div>
 
             <div id="panel2" class="col-xs-12 p-4 panel">
-                <p> {% for author in book.author.all|slice:"1" %}
-                <a class="author"><em>{{ author.bio }}</em></a> {% endfor %} </p>
+                {% for author in book.author.all|slice:"1" %}
+                    <em>{{ author.bio }}</em>
+                {% endfor %}
+            </div>
+            
+            <div id="panel3" class="col-xs-12 p-4 panel active">
+                {% for review, stats in review_objs %}
+                <div class="review mb-5">
+                    <h5 class="reviewer mb-1"> 
+                        By {% if review.author.profile.nick_name %} {{review.author.profile.nick_name}} {% else %}Anonymous{% endif %}
+                    </h5>
+                    <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
+                    <div class="rating mb-2">
+                        {% if stats %}
+                            <span>Rating: </span>
+                            {% for _ in stats.filled %}
+                                <span class="star"><i class="fa fa-star"></i></span>
+                            {% endfor %}
+                            {% for _ in stats.empty %}
+                                <span class="star"><i class="fa fa-star-o"></i></span>
+                            {% endfor %}    
+                        {% else %}
+                            <span>Rating: N/A</span>                       
+                        {% endif %}
+                    </div>
+                    {% if False %}
+                        <div class="comment">I loved re-reading IT all over again. I began remembering as I read and I love how I can always picture in my mind Stephen King books as I read them. the characters are so much fun to learn about as you read the story. So much detail and it makes it even extra special
+                            No you do not need to read the book to see the movie however I highly recommend reading this book.
+                            it is a wonderfully creepy book to read
+                            thank you Stephen King: I love your books
+                        </div>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
+                </div>  
+                {% endfor %}
             </div>
         </div>
     </div>
