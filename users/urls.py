@@ -5,7 +5,7 @@ from users.forms import SignUpForm
 from . import views
 
 urlpatterns = [
-    url(r'profile/$', views.profile, name='profile'),
+    url(r'profile/(?P<pk>[\-\w]+)/$', views.profile, name='profile'),
     url(r'logout/$', views.LogoutView.as_view(), name='logout'),
     url(r'signup/$',
         views.SignUpView.as_view(form_class=SignUpForm),

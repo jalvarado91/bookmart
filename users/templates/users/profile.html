@@ -22,6 +22,9 @@
                     <form method="POST" class="form-horizontal">
                         {% csrf_token %}
                         {% bootstrap_form form layout='inline' %}
+                        {{ form.errors }} {{ form.non_field_errors }}
+                        <div class="divider"></div>
+                        {% bootstrap_formset formset layout='inline' %}
                         <input class="btn btn-block btn-lg btn-success submit" type="submit" value="Save changes">
                     </form>
                 </div>

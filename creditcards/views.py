@@ -10,9 +10,13 @@ from django.views.generic.list import ListView
 @login_required
 def creditcardview(request):
     if request.method == "POST":
-        form = CreditCardForm(request, data=request.POST)
+        form = CreditCardForm(request)
         if form.is_valid():
-            form.save()
+            assert False, form
+            cc = form.save(commit=False)
+            cc.id = request.user.id
+            cc.save()
+            assert False, cc
             return redirect('users/profile')
     else:
         form = CreditCardForm(request)
