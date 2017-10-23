@@ -67,17 +67,17 @@
         <div class="col-sm-9 tab-panels">
             <ul class="tabs nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link " rel="panel1" href="#">Book Overview</a>
+                    <a class="nav-link active" rel="panel1" href="#">Book Overview</a>
                 </li>
                 <li class="nav-item">
                     <a  class="nav-link" rel="panel2" href="#">About the author</a>
                 </li>
                 <li class="nav-item">
-                    <a  class="nav-link active" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
+                    <a  class="nav-link " rel="panel3" href="#">Reviews ({{reviews_count}})</a>
                 </li>
             </ul>
 
-            <div id="panel1" class="col-xs-12 p-4 panel ">
+            <div id="panel1" class="col-xs-12 p-4 panel active">
                 <em> {{ book.description }} </em>
             </div>
 
@@ -87,7 +87,7 @@
                 {% endfor %}
             </div>
             
-            <div id="panel3" class="col-xs-12 p-4 panel active">
+            <div id="panel3" class="col-xs-12 p-4 panel ">
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
                     <h5 class="reviewer mb-1"> 
