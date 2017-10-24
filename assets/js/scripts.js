@@ -6,6 +6,8 @@
     offset: 60
   });
 
+  $('[data-toggle="tooltip"]').tooltip()
+
   $("#collapsingNavbar li a").click(function() {
     /* always close responsive nav after click */
     $(".navbar-toggler:visible").click();
@@ -20,7 +22,8 @@
     $(".show").fadeOut();
   });
 
-  $(".tab-panels .tabs li a").on("click", function() {
+  $(".tab-panels .tabs li a").on("click", function(event) {
+    event.preventDefault();
     $(".tab-panels .tabs li a.active").removeClass("active");
     $(this).addClass("active");
 
