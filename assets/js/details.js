@@ -33,7 +33,7 @@ Vue.component('star-rating', {
 var detailsApp = new Vue({
   el: '#panel4',
   data: {
-    user_id: null,
+    book_id: null,
     rating: 0,
     comments: '',
     anonymous: false,
@@ -52,21 +52,25 @@ var detailsApp = new Vue({
       var self = this;
       event.preventDefault();
 
-      console.log({
-        user_id: self.user_id,
+      var review_data = {
         rating: self.rating,
         comments: self.comments,
         anonymous: self.anonymous
+      };
+
+      $.ajax({
+        type:"POST",
+        url: detailsObject.review_url,
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(review_data)
+      }).done(function(response) {
+        console.log(response);
       });
     },
     
     onRatingChange: function(rating) {
       this.rating = rating;
     }
-  },
-
-  mounted: function() {
-    this.user_id = userObject.id
   }
 })
 

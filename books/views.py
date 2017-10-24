@@ -4,6 +4,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.db.models import Count, Avg
 import math
+import json
 
 from .models import Book
 from .models import Author
@@ -51,6 +52,15 @@ def book_detail(request, book_id):
         raise Http404("Book does not exist")
     return render(request, 'book/detail.html', templ_context)
 
+
+def book_review(request, book_id):
+    if request.is_ajax():
+        if request.method == 'POST':
+            user = request.user
+            book_id = book_id
+            review_data = json.loads(request.body)
+            print book_id, user, review_data
+    return HttpResponse("OK")
 
 def get_review_stats(reviews):
     aggs = []
