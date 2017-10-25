@@ -15,3 +15,10 @@ class AddressForm(forms.ModelForm):
         self.fields['address2'].required = True
         self.fields['city'].required = True
         self.fields['zipcode'].required = True
+
+        self.fields['name'].widget.attrs[
+            'placeholder'] = 'Shipping address familiar name'
+        self.fields['address1'].widget.attrs['placeholder'] = 'Address 1'
+        self.fields['address2'].widget.attrs['placeholder'] = 'Address 2'
+        self.fields['city'].widget.attrs['placeholder'] = 'City'
+        self.fields['zipcode'].widget.attrs['placeholder'] = 'Zip Code'

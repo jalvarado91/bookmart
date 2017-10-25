@@ -17,11 +17,18 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='nick_name',
-            field=models.CharField(blank=True, default='', max_length=30, verbose_name='Nick name'),
-        ),
+            field=models.CharField(
+                blank=True,
+                default='',
+                max_length=30,
+                verbose_name='Nick name'), ),
         migrations.AlterField(
             model_name='profile',
             name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='user', serialize=False, to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                primary_key=True,
+                related_name='user',
+                serialize=False,
+                to=settings.AUTH_USER_MODEL), ),
     ]

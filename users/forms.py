@@ -1,7 +1,7 @@
 import re
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from users.models import Profile, User
 
 
@@ -59,8 +59,7 @@ class ProfileForm(forms.ModelForm):
 
     def clean_nick_name(self):
         value = self.cleaned_data['email']
-        pattern = re.compile(
-            r"(^[a-zA-Z_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+        pattern = re.compile(r"(^[a-zA-Z]+[a-zA-Z0-9-]+$)")
         if not pattern.match(value):
             raise ValidationError('Email format is incorrect')
         return value

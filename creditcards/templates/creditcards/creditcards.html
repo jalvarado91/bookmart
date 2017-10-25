@@ -5,23 +5,13 @@
         <hr>
         <div class="row">
             <div class="col-lg-6">
-                <h2>New credit card information</h2>
-                <form method="POST">
-                    {% bootstrap_form form layout='inline' %}
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input class="btn btn-block btn-lg btn-primary submit" type="submit" value="Add credit card">
-                    </div>
-                </form>
+                <h2>Credit card information</h2>
+                {% include 'partials/_creditcards_detail.html' %}
             </div>
             <div class="col-lg-4 ml-auto">
                  <h4>your credit cards</h4>
-                 <ul>
-                     <li>credit card 1</li>
-                     <li>credit card 2</li>
-                     <li>credit card 3</li>
-                 </ul>
-                 <a href="{% url 'users:profile' %}">Go back to profile</a>
+                 {% include 'partials/_creditcards_list.html' %}
+                 <a href="{% url 'users:profile' user.id %}"><h5>Go back to your profile</h5></a>
             </div>
         </div>
 	</div>

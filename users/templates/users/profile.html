@@ -33,7 +33,7 @@
                     <!--list view-->
                     <ul style="list-style-type: none">
                         <li><a href="{% url 'users:changepassword' %}">Change password</a></li>
-                        <li><a href="{% url 'users:creditcards' %}" >Credit cards</a></li>
+                        <li><a href="{% url 'users:creditcards' user.id %}" >Credit cards</a></li>
                         <li><a href="{% url 'users:addresses' %}" >Shipping addresses</a></li>
                     </ul>
                 </div>
