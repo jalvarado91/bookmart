@@ -1,10 +1,19 @@
+{% extends "layout.html" %} 
+{% load static %} 
+
+{% block content %}
 {% if all_books %}
-<h3> This is the list of all books </h3>
-    <ul>
+  <div class="container mt-4">
+    <h1 class="mb-4">All Books</h1>
+    <div class="row">
       {% for book in all_books %}
-      <li><a href= "/books/{{ book.id }}/"> {{ book.title }}</a></li>
+      <div class="col-xs-6 col-sm-6 col-md-3">
+        {% include "partials/book.html" %}
+      </div>
       {% endfor %}
-    <ul>
+    </div>
+  </div>
 {% else %}
-      <h3> You do not have any books </h3>
+  <h3> You do not have any books </h3>
 {% endif %}
+{% endblock %}

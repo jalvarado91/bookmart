@@ -321,6 +321,12 @@ img::-moz-selection {
     color: gold;
 }
 
+.rating-input .star{
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.7em;
+}
+
 .price span {
     font-size: 1.8em;
     font-weight: bold;
@@ -334,4 +340,12 @@ img::-moz-selection {
 }
 .review .comment {
     white-space: pre-line;
+}
+
+.review-panel .btn {
+    cursor: pointer;
+}
+.review-panel .btn.disabled, 
+.review-panel .btn:disabled {
+    cursor: not-allowed;
 }
