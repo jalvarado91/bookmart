@@ -132,4 +132,4 @@ LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'users:profile'
 LOGOUT_REDIRECT_URL = 'home'
 
-CART_URL = 'carts:CartView'
+CART_SESSION_ID = 'carts'

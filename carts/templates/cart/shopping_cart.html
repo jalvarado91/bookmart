@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+{% block content %}
+<html>
+<head>
+  <link rel="stylesheet" href="{% static 'css/cart_style.css' %}" />
+</head>
+<h1>Shopping Cart</h1>
+
+<div class="shopping-cart">
+<div class="column-labels">
+  <label class="product-image">Image</label>
+  <label class="product-details">Product</label>
+  <label class="product-price">Price</label>
+  <label class="product-quantity">Quantity</label>
+  <label class="product-removal">Remove</label>
+  <label class="product-line-price">Total</label>
+</div>
+
+{% if not cart %}
+<div class= "No-items-in-cart">
+  <h1> Please Add Items To Your Cart </h1>
+</div>
+{% endif %}
+
+{% for item in cart %}
+            {% with book=item.book %}
+<div class="product">
+  <div class="product-image">
+    <a href="{% url 'books:detail' book.id %}">
+      <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+    </a>
+  </div>
+  <div class="product-details">
+    <div class="details mt-2">
+      <a class="name d-block" href="{% url 'books:detail' book.id %}">
+        <strong>{{ book.title }}</strong>
+      </a>
+      {% for author in book.author.all|slice:"1" %}
+        <a class="author" href="#">{{ author.name }}</a>
+      {% endfor %}
+    </div>
+    <p class="product-description">{{book.description}}</p>
+  </div>
+  <div class="product-price">{{book.price}}</div>
+  <div class="product-quantity">
+    <form action="{% url "carts:add" book.id %}" method="post">
+      {{ item.update_quantity_form.quantity }}
+      {{ item.update_quantity_form.update }}
+      <input type="submit" value="Update" id= "Update">
+      {% csrf_token %}
+    </form>
+  </div>
+  <div class="product-removal">
+  <a href="{% url "carts:cart_remove" book.id %}" >Remove</a >
+  </div>
+  <div class="num">${{ item.total_price }}</div>
+
+  <div class="save-for-later">
+  <a href=# >Save For Later</a >
+  </div>
+</div>
+    {% endwith %}
+{% endfor %}
+
+<div class="totals">
+  <div class="totals-item">
+    <label>Grand Total</label>
+    <div class="totals-value" id="cart-subtotal">{{ cart.get_total_price }}</div>
+  </div>
+</div>
+<button class="checkout">Checkout</button>
+
+<a class="continue" href="{% url 'home' %}">Continue Shopping</a>
+
+</div>
+</html>
+{% endblock %}
