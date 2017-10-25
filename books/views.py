@@ -8,6 +8,7 @@ import json
 
 from .models import Book
 from .models import Author
+from carts.forms import CartAddBookForm
 from django.shortcuts import render
 
 
@@ -22,10 +23,13 @@ def book_detail(request, book_id):
     try:
         book = Book.objects.get(pk=book_id)
 
+        #Add books to the shopping cart
+        cart_book_form = CartAddBookForm()
+
         # reviews
         reviews = book.review_set.all().order_by('-created_at')
         reviews_count = book.review_set.count()
-        
+
         avg_rating = book.review_set.aggregate(Avg('rating'))['rating__avg']
         rating_count = book.review_set.aggregate(Count('rating'))['rating__count']
 
@@ -33,13 +37,14 @@ def book_detail(request, book_id):
             range_pos = int(math.floor(avg_rating))
             rating_filled = range(range_pos)
             rating_empty = range(5 - range_pos)
-        else: 
+        else:
             rating_filled = None
             rating_empty = None
-        
+
 
         templ_context = {
             'book': book,
+            'cart_book_form' : cart_book_form,
             'review_objs': get_review_stats(reviews),
             'reviews_count': reviews_count,
             'rating_filled': rating_filled,
@@ -53,6 +58,22 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
+<<<<<<< HEAD
+def author_list(request, author_id):
+
+    try:
+        author = Author.objects.get(pk=author_id)
+        book_list = Book.objects.all().filter(author=author)
+
+        context = {
+            'author' : author,
+            'book_list': book_list
+        }
+    except Author.DoesNotExist:
+        raise Http404("Author does not exist")
+    return render(request, 'book/author.html', context )
+
+=======
 def book_review(request, book_id):
     if request.is_ajax():
         if request.method == 'POST':
@@ -61,6 +82,7 @@ def book_review(request, book_id):
             review_data = json.loads(request.body)
             print book_id, user, review_data
     return HttpResponse("OK")
+>>>>>>> de0f4248348feeb02f58c243789995f347f545da
 
 def get_review_stats(reviews):
     aggs = []
@@ -70,7 +92,7 @@ def get_review_stats(reviews):
                 review,
                 None
             ))
-        else: 
+        else:
             aggs.append((
                 review,
                 {

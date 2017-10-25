@@ -7,7 +7,7 @@
 <div id="detailsApp" class="container pt-4 pb-4">
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
-        <a class="author" href="#"><em>{{ author.name }}</em></a> {% endfor %}
+        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.name }}</em></a> {% endfor %}
     </h5>
 
     <div class="row justify-content-md-center">
@@ -28,10 +28,10 @@
 
 
         <div class="col-sm-6">
-            <h4>Book Details</h4>
+            <!-- <h4>Book Details</h4>  -->
             <p>
-                <strong>Publisher: </strong>{{ book.publisher }} <br/> 
-                <strong>Genre: </strong>{{ book.genre }} <br/> 
+                <strong>Publisher: </strong>{{ book.publisher }} <br/>
+                <strong>Genre: </strong>{{ book.genre }} <br/>
                 <strong>Release Date: </strong>{{ book.release_date|date:"M d Y" }} <br/>
             </p>
 
@@ -39,13 +39,15 @@
                 <h5>Price</h5>
                 <div class="d-flex align-items-center">
                     <span class="mr-3">${{ book.price }} </span>
-                    <a href="#" class="btn btn-secondary">
-                        Add to Cart
-                    </a>
+                    <form action="{% url "carts:add" book.id %}" method="post">
+                      {{ cart_book_form }}
+                      {% csrf_token %}
+                      <input type="submit" value="Add to cart">
+                    </form>
                 </div>
             </div>
 
-            <h5>Ratings</h5>  
+            <h5>Ratings</h5>
             <div class="rating">
                 {% if rating_count > 0 %}
                     {% for _ in rating_filled %}
@@ -53,7 +55,7 @@
                     {% endfor %}
                     {% for _ in rating_empty %}
                         <span class="star"><i class="fa fa-star-o"></i></span>
-                    {% endfor %}    
+                    {% endfor %}
                     <span class="ml-2">({{ rating_count }})</span>
                 {% else %}
                     <span>No ratings yet</span>
@@ -90,11 +92,15 @@
                     <em>{{ author.bio }}</em>
                 {% endfor %}
             </div>
-            
+
+<<<<<<< HEAD
+            <div id="panel3" class="col-xs-12 p-4 panel active">
+=======
             <div id="panel3" class="col-xs-12 p-4 panel ">
+>>>>>>> de0f4248348feeb02f58c243789995f347f545da
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
-                    <h5 class="reviewer mb-1"> 
+                    <h5 class="reviewer mb-1">
                         By {% if review.author.profile.nick_name %} {{review.author.profile.nick_name}} {% else %}Anonymous{% endif %}
                     </h5>
                     <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
@@ -106,9 +112,9 @@
                             {% endfor %}
                             {% for _ in stats.empty %}
                                 <span class="star"><i class="fa fa-star-o"></i></span>
-                            {% endfor %}    
+                            {% endfor %}
                         {% else %}
-                            <span>Rating: N/A</span>                       
+                            <span>Rating: N/A</span>
                         {% endif %}
                     </div>
                     {% if review.comments %}
@@ -120,14 +126,14 @@
                     {% else %}
                         <div></div>
                     {% endif %}
-                </div>  
+                </div>
                 {% endfor %}
             </div>
 
 
             <div id="panel4" class="col-xs-12 p-4 review-panel panel">
                 <h4 class="mb-4">Add Review</h4>
-                
+
                 <form v-on:submit="onSubmit" class="pb-5" action="#">
                     <input type="hidden" name="userId">
 
