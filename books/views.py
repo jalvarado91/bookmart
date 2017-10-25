@@ -4,9 +4,11 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.db.models import Count, Avg
 import math
+import json
 
 from .models import Book
 from .models import Author
+from carts.forms import CartAddBookForm
 from django.shortcuts import render
 
 
@@ -20,6 +22,9 @@ def index(request):  # this method defined by lida
 def book_detail(request, book_id):
     try:
         book = Book.objects.get(pk=book_id)
+
+        #Add books to the shopping cart
+        cart_book_form = CartAddBookForm()
 
         # reviews
         reviews = book.review_set.all().order_by('-created_at')
@@ -39,6 +44,7 @@ def book_detail(request, book_id):
 
         templ_context = {
             'book': book,
+            'cart_book_form' : cart_book_form,
             'review_objs': get_review_stats(reviews),
             'reviews_count': reviews_count,
             'rating_filled': rating_filled,
@@ -52,6 +58,7 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
+<<<<<<< HEAD
 def author_list(request, author_id):
 
     try:
@@ -66,6 +73,16 @@ def author_list(request, author_id):
         raise Http404("Author does not exist")
     return render(request, 'book/author.html', context )
 
+=======
+def book_review(request, book_id):
+    if request.is_ajax():
+        if request.method == 'POST':
+            user = request.user
+            book_id = book_id
+            review_data = json.loads(request.body)
+            print book_id, user, review_data
+    return HttpResponse("OK")
+>>>>>>> de0f4248348feeb02f58c243789995f347f545da
 
 def get_review_stats(reviews):
     aggs = []

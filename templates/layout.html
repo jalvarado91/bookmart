@@ -30,7 +30,7 @@
                     </li>
                     {% else %}
                     <li class="nav-item mr-3">
-                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'CartView' %}">
+                        <a class="nav-link" title="A free Bootstrap theme" href="{% url 'carts:detail' %}">
                             <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> My Cart
                         </a>
                     </li>
@@ -65,6 +65,9 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/vue.js' %}"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>

@@ -26,8 +26,8 @@ from bookmart.views import HomePageView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include(user_urls, namespace='users')),
-    url(r'^books/', include(book_urls)),
     url(r'^carts/', include(cart_urls)),
+    url(r'^books/', include(book_urls)),
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^resetpassword/$', password_reset, name='resetpassword'),
     url(r'^resetpassworddone/$', password_reset_done,

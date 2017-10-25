@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container pt-4 pb-4">
+<div id="detailsApp" class="container pt-4 pb-4">
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
         <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.name }}</em></a> {% endfor %}
@@ -39,9 +39,11 @@
                 <h5>Price</h5>
                 <div class="d-flex align-items-center">
                     <span class="mr-3">${{ book.price }} </span>
-                    <a href="#" class="btn btn-secondary">
-                        Add to Cart
-                    </a>
+                    <form action="{% url "carts:add" book.id %}" method="post">
+                      {{ cart_book_form }}
+                      {% csrf_token %}
+                      <input type="submit" value="Add to cart">
+                    </form>
                 </div>
             </div>
 
@@ -67,17 +69,21 @@
         <div class="col-sm-9 tab-panels">
             <ul class="tabs nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link " rel="panel1" href="#">Book Overview</a>
+                    <a class="nav-link active" rel="panel1" href="#">Book Overview</a>
                 </li>
                 <li class="nav-item">
                     <a  class="nav-link" rel="panel2" href="#">About the author</a>
                 </li>
                 <li class="nav-item">
-                    <a  class="nav-link active" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
+                    <a  class="nav-link" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
+                </li>
+
+                <li class="nav-item ml-auto">
+                    <a  class="nav-link" rel="panel4" href="#"><strong>Add Review</strong></a>
                 </li>
             </ul>
 
-            <div id="panel1" class="col-xs-12 p-4 panel ">
+            <div id="panel1" class="col-xs-12 p-4 panel active">
                 <em> {{ book.description }} </em>
             </div>
 
@@ -87,7 +93,11 @@
                 {% endfor %}
             </div>
 
+<<<<<<< HEAD
             <div id="panel3" class="col-xs-12 p-4 panel active">
+=======
+            <div id="panel3" class="col-xs-12 p-4 panel ">
+>>>>>>> de0f4248348feeb02f58c243789995f347f545da
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
                     <h5 class="reviewer mb-1">
@@ -107,7 +117,7 @@
                             <span>Rating: N/A</span>
                         {% endif %}
                     </div>
-                    {% if False %}
+                    {% if review.comments %}
                         <div class="comment">I loved re-reading IT all over again. I began remembering as I read and I love how I can always picture in my mind Stephen King books as I read them. the characters are so much fun to learn about as you read the story. So much detail and it makes it even extra special
                             No you do not need to read the book to see the movie however I highly recommend reading this book.
                             it is a wonderfully creepy book to read
@@ -119,6 +129,38 @@
                 </div>
                 {% endfor %}
             </div>
+
+
+            <div id="panel4" class="col-xs-12 p-4 review-panel panel">
+                <h4 class="mb-4">Add Review</h4>
+
+                <form v-on:submit="onSubmit" class="pb-5" action="#">
+                    <input type="hidden" name="userId">
+
+                    <div class="mb-3">
+                        <label class="mb-0">Rate</label>
+                        <star-rating v-on:ratingchange="onRatingChange"></star-rating>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <textarea v-model="comments" class="form-control" id="comments" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" v-model="anonymous">
+                            Make review anonymous
+                        </label>
+                    </div>
+
+                    <div class="text-right">
+                        <button class="btn btn-secondary" type="submit" v-if="allowSubmit">
+                            Submit Review
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -126,3 +168,15 @@
 
 
 {% endblock %}
+
+
+{% block scripts %}
+<script>
+    var detailsObject = {
+        user_id: {{ user.id }},
+        book_id: {{ book.id }},
+        review_url: '{% url 'books:review' book.id %}'
+    }
+</script>
+<script src="{% static 'js/details.js' %}"></script>
+{% endblock  %}
