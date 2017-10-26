@@ -58,6 +58,16 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
+def author_list(request, author_id):
+    try:
+        author = Author.objects.get(pk=author_id)
+        book_list = Book.objects.all().filter(author=author)
+        context = {'author': author, 'book_list': book_list}
+    except Author.DoesNotExist:
+        raise Http404("Author does not exist")
+    return render(request, 'book/author.html', context)
+
+
 def book_review(request, book_id):
     if request.is_ajax():
         if request.method == 'POST':

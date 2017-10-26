@@ -18,6 +18,7 @@ class Book(models.Model):
     author = models.ManyToManyField(Author)
     cover_url = models.CharField(max_length=200)
     description = models.TextField()
+
     genre = models.CharField(max_length=200)
     price = models.FloatField()
     publisher = models.CharField(max_length=100)
@@ -30,8 +31,10 @@ class Book(models.Model):
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+
     rating = models.PositiveIntegerField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
