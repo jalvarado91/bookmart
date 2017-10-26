@@ -8,7 +8,7 @@ class AddressForm(forms.ModelForm):
         model = Address
         fields = ['name', 'address1', 'address2', 'city', 'zipcode']
 
-    def __init__(self, request, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)
         self.fields['name'].required = True
         self.fields['address1'].required = True

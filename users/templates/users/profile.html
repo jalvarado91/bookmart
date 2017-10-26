@@ -34,7 +34,7 @@
                     <ul style="list-style-type: none">
                         <li><a href="{% url 'users:changepassword' user.id %}">Change password</a></li>
                         <li><a href="{% url 'users:creditcards' user.id %}" >Credit cards</a></li>
-                        <li><a href="{% url 'users:addresses' %}" >Shipping addresses</a></li>
+                        <li><a href="{% url 'users:addresses' user.id %}" >Shipping addresses</a></li>
                     </ul>
                 </div>
             </div>

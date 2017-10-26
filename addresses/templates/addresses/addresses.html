@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load bootstrap3 %}
+{% block content %}
+	<div class="container">
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Credit card information</h2>
+                {% include 'partials/_creditcards_detail.html' %}
+                {% if creditcard %}
+                    <a href="{% url 'users:creditcards' user.id %}">Clear the form for a new credit card</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-4 ml-auto">
+                 <h4>your credit cards</h4>
+                 {% include 'partials/_creditcards_list.html' %}
+                 <a href="{% url 'users:profile' user.id %}"><h5>Go back to your profile</h5></a>
+            </div>
+        </div>
+	</div>
+{% endblock %}
