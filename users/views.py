@@ -2,52 +2,94 @@
 from __future__ import unicode_literals
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.forms.models import inlineformset_factory
+from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import FormView, CreateView
 from users.forms import UserProfileForm, SignUpForm
+from users.models import Profile, User
 from . import forms
 
 
-#from .forms import ProfileForm
 @login_required
-def profile(request):
-    data = {
-        'first_name': request.user.first_name,
-        'last_name': request.user.last_name,
-        'email': request.user.email,
-        'username': request.user.username,
-        #'nick_name': request.profile.nick_name,
-    }
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST)
-        #assert False, form
-        if form.is_valid():
-            assert False, request.POST
-            form.save()
-            return render(request, 'users/profileupdated.html')
+def profile(request, user_id):
+
+    user = User.objects.get(pk=user_id)
+    profile = Profile.objects.get(pk=user_id)
+    ProfileFormset = inlineformset_factory(
+        User, Profile, fields=('nick_name', ), can_delete=False)
+
+    if request.user.is_authenticated() and request.user.id == user.id:
+
+        if request.method == 'POST':
+            user_form = UserProfileForm(request.POST, instance=user)
+
+            if user_form.is_valid():
+                current_user = user_form.save(commit=False)
+                profile_formset = ProfileFormset(
+                    request.POST, instance=profile)
+
+                if profile_formset.is_valid():
+                    current_user.save()
+                    profile_formset.save()
+                    return confirmation_page(request, user_id)
+
+            raise Http404('Error validating forms')  # not valid
+
         else:
-            return render(request, 'index.html')
+            user_form = UserProfileForm(instance=user)
+            profile_formset = ProfileFormset(instance=user)
+
+        return render(request, 'users/profile.html', {
+            'user_id': request.user.id,
+            'form': user_form,
+            'formset': profile_formset,
+        })
     else:
-        form = UserProfileForm(initial=data)
-    return render(request, 'users/profile.html', {'form': form})
+        raise Http404('Access denied')
+
+
+def confirmation_page(request, user_id):
+    return render(request, 'user_message.html', {
+        'page_title':
+        'Profile',
+        'page_header':
+        'Profile updated succefully',
+        'page_message':
+        '',
+        'url_to_redirect':
+        reverse('users:profile', None, [str(user_id)]),
+        'returning_page_name':
+        'profile page'
+    })
 
 
 @login_required
-def changepassword(request):
+def changepassword(request, user_id):
     form = PasswordChangeForm(user=request.user)
-    success_url = reverse_lazy('users:profile')
     if request.method == 'POST':
         if "Cancel" in request.POST:
-            return HttpResponseRedirect(success_url)
+            return reverse('users:profile', args=[str(user_id)]),
         form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return render(request, 'users/changepassworddone.html')
+            return render(request, 'user_message.html', {
+                'page_title':
+                'Password Confirmation',
+                'page_header':
+                'Password changed succefully',
+                'page_message':
+                '',
+                'url_to_redirect':
+                reverse('users:profile', None, [str(user_id)]),
+                'returning_page_name':
+                'profile'
+            })
 
     return render(request, 'users/changepassword.html', {
         'form': form,
@@ -66,4 +108,4 @@ class LogoutView(LoginRequiredMixin, FormView):
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = 'users/signup.html'
-    success_url = reverse_lazy('users:profile')
+    success_url = '/users/login'

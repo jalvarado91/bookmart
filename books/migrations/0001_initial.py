@@ -19,33 +19,49 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Author',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('bio', models.TextField()),
-            ],
-        ),
+            ], ),
         migrations.CreateModel(
             name='Book',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('cover_url', models.CharField(max_length=200)),
                 ('description', models.TextField()),
                 ('genre', models.CharField(max_length=200)),
                 ('price', models.FloatField()),
                 ('publisher', models.CharField(max_length=100)),
-                ('release_date', models.DateTimeField(verbose_name='publishing date')),
+                ('release_date',
+                 models.DateTimeField(verbose_name='publishing date')),
                 ('author', models.ManyToManyField(to='books.Author')),
-            ],
-        ),
+            ], ),
         migrations.CreateModel(
             name='Review',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
                 ('rating', models.PositiveIntegerField(blank=True, null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('author', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='books.Book')),
-            ],
-        ),
+                ('author', models.ForeignKey(
+                    blank=True,
+                    null=True,
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL)),
+                ('book', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='books.Book')),
+            ], ),
     ]

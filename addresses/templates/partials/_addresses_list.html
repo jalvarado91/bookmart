@@ -1,0 +1,27 @@
+{% block content %}
+<table>
+    <tbody>
+        {% for address in addresses_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'users:addressbound' user.id address.id %}">{{ address.name }}&nbsp&nbsp</a>
+                </td>
+                <td>
+                    <form method="POST" class="form-horizontal">
+                        {% csrf_token %}
+                        <button class="btn btn-primary btn-sm" type="submit" onclick="clicked()" action=""><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>No shipping addresses cards yet.</tr>
+        {% endfor %}
+        <script>
+            function clicked()
+            {
+                return comfirm('Remove shipping address?');
+            }
+        </script>
+    </tbody>
+</table>
+{% endblock %}

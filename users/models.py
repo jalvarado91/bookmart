@@ -7,5 +7,20 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
-    nick_name = models.CharField('Nick name', max_length=30, null=True)
+        User, related_name='user', on_delete=models.CASCADE, primary_key=True)
+    nick_name = models.CharField(
+        'Nick name', max_length=30, blank=True, default='')
+
+    def __str__(self):
+        return self.user.username
+
+
+def create_profile(sender, **kwargs):
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        profile = Profile(user=user)
+        profile.nick_name = ''
+        profile.save()
+
+
+post_save.connect(create_profile, sender=User)

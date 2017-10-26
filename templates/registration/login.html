@@ -11,10 +11,10 @@
             <form action="" method="POST">
             {% bootstrap_form form %}
             {% csrf_token %}
-             <hr>
+             <br>
                 <input class="btn btn-lg btn-success btn-block submit" type="submit" value="Login">
             </form>
-            <hr>
+            <br>
             <p>Dont have an account, register <a href="{% url 'users:signup' %}"><strong>here</strong></a></p>
             <a href="{% url 'resetpassword' %}"><strong>Forgot password</strong></a>
         </div>
