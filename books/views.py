@@ -71,6 +71,8 @@ def author_list(request, author_id):
     return render(request, 'book/author.html', context )
 
 
+
+
 def book_review(request, book_id):
     if request.is_ajax():
         if request.method == 'POST':
