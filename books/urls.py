@@ -8,13 +8,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     # /books/05/ this will show a page with the details od the views
-<<<<<<< HEAD
     url(r'^(?P<book_id>[0-9]+)/$', views.book_detail, name='detail'),
-
-    # /author/05/ this will show a page with the list of author books views
-    url(r'^author/(?P<author_id>[0-9]+)/$', views.author_list, name='author_books'),
-=======
     url(r'(?P<book_id>[0-9]+)/$', views.book_detail, name='detail'),
     url(r'(?P<book_id>[0-9]+)/review$', views.book_review, name='review'),
->>>>>>> de0f4248348feeb02f58c243789995f347f545da
 ]

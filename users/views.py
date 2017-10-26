@@ -69,12 +69,11 @@ def confirmation_page(request, user_id):
 
 
 @login_required
-def changepassword(request, user_id=None):
+def changepassword(request, user_id):
     form = PasswordChangeForm(user=request.user)
-    success_url = reverse_lazy('users:profile')
     if request.method == 'POST':
         if "Cancel" in request.POST:
-            return HttpResponseRedirect(success_url)
+            return reverse('users:profile', args=[str(user_id)]),
         form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()

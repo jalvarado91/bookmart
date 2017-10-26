@@ -7,6 +7,9 @@
             <div class="col-lg-6">
                 <h2>Credit card information</h2>
                 {% include 'partials/_creditcards_detail.html' %}
+                {% if creditcard %}
+                    <a href="{% url 'users:creditcards' user.id %}">Clear the form for a new credit card</a>
+                {% endif %}
             </div>
             <div class="col-lg-4 ml-auto">
                  <h4>your credit cards</h4>

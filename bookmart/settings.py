@@ -128,8 +128,8 @@ STATICFILES_DIRS = [
 ]
 
 # Authentication
-LOGIN_URL = 'users:login'
-LOGIN_REDIRECT_URL = 'users:profile'
+LOGIN_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 CART_SESSION_ID = 'carts'

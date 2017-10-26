@@ -31,7 +31,8 @@ def book_detail(request, book_id):
         reviews_count = book.review_set.count()
 
         avg_rating = book.review_set.aggregate(Avg('rating'))['rating__avg']
-        rating_count = book.review_set.aggregate(Count('rating'))['rating__count']
+        rating_count = book.review_set.aggregate(
+            Count('rating'))['rating__count']
 
         if rating_count > 0:
             range_pos = int(math.floor(avg_rating))
@@ -41,10 +42,9 @@ def book_detail(request, book_id):
             rating_filled = None
             rating_empty = None
 
-
         templ_context = {
             'book': book,
-            'cart_book_form' : cart_book_form,
+            'cart_book_form': cart_book_form,
             'review_objs': get_review_stats(reviews),
             'reviews_count': reviews_count,
             'rating_filled': rating_filled,
@@ -58,46 +58,24 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
-<<<<<<< HEAD
-def author_list(request, author_id):
-
-    try:
-        author = Author.objects.get(pk=author_id)
-        book_list = Book.objects.all().filter(author=author)
-
-        context = {
-            'author' : author,
-            'book_list': book_list
-        }
-    except Author.DoesNotExist:
-        raise Http404("Author does not exist")
-    return render(request, 'book/author.html', context )
-
-=======
 def book_review(request, book_id):
     if request.is_ajax():
         if request.method == 'POST':
             user = request.user
             book_id = book_id
             review_data = json.loads(request.body)
-            print book_id, user, review_data
+            #print book_id, user, review_data
     return HttpResponse("OK")
->>>>>>> de0f4248348feeb02f58c243789995f347f545da
+
 
 def get_review_stats(reviews):
     aggs = []
     for review in reviews:
         if review.rating == None:
-            aggs.append((
-                review,
-                None
-            ))
+            aggs.append((review, None))
         else:
-            aggs.append((
-                review,
-                {
-                    "filled": range(review.rating),
-                    "empty": range(5 - review.rating)
-                }
-            ))
+            aggs.append((review, {
+                "filled": range(review.rating),
+                "empty": range(5 - review.rating)
+            }))
     return aggs
