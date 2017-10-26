@@ -58,13 +58,10 @@ def book_detail(request, book_id):
     return render(request, 'book/detail.html', templ_context)
 
 
-<<<<<<< HEAD
 def author_list(request, author_id):
-
     try:
         author = Author.objects.get(pk=author_id)
         book_list = Book.objects.all().filter(author=author)
-
         context = {
             'author' : author,
             'book_list': book_list
@@ -73,7 +70,7 @@ def author_list(request, author_id):
         raise Http404("Author does not exist")
     return render(request, 'book/author.html', context )
 
-=======
+
 def book_review(request, book_id):
     if request.is_ajax():
         if request.method == 'POST':
@@ -82,7 +79,6 @@ def book_review(request, book_id):
             review_data = json.loads(request.body)
             print book_id, user, review_data
     return HttpResponse("OK")
->>>>>>> de0f4248348feeb02f58c243789995f347f545da
 
 def get_review_stats(reviews):
     aggs = []

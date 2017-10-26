@@ -12,11 +12,5 @@
       <!--<a class="author" href="#">{{ author.name }}</a> -->
       <a class="author" href="{% url 'books:author_books' author.id %}">{{ author.name }}</a>
     {% endfor %}
-
-    <p>
-      Price: ${{ book.price }} <br/>
-      
-    </p>
-
   </div>
 </div>
