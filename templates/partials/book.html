@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="book-item">
+<div class="book-item mb-3">
   <a href="{% url 'books:detail' book.id %}">
     <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
   </a>

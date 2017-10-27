@@ -8,5 +8,5 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['latest_books'] = Book.objects.all()[:5]
+        context['latest_books'] = Book.objects.all().order_by('-release_date')[:8]
         return context

@@ -18,7 +18,6 @@ class Book(models.Model):
     author = models.ManyToManyField(Author)
     cover_url = models.CharField(max_length=200)
     description = models.TextField()
-
     genre = models.CharField(max_length=200)
     price = models.FloatField()
     publisher = models.CharField(max_length=100)

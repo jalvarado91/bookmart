@@ -42,7 +42,7 @@
                     <form action="{% url "carts:add" book.id %}" method="post">
                       {{ cart_book_form }}
                       {% csrf_token %}
-                      <input type="submit" value="Add to cart">
+                      <input class="btn btn-secondary" type="submit" value="Add to cart">
                     </form>
                 </div>
             </div>
