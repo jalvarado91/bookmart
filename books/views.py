@@ -15,7 +15,7 @@ from django.shortcuts import render
 # Create your views here.
 def index(request):  # this method defined by lida
     all_books = Book.objects.all()
-    return render(request, 'book/index1.html', {'all_books': all_books})
+    return render(request, 'book/book_list.html', {'all_books': all_books})
     # return render(request, 'book/index2.html', context)
 
 
@@ -23,7 +23,7 @@ def book_detail(request, book_id):
     try:
         book = Book.objects.get(pk=book_id)
 
-        #Add books to the shopping cart
+        # Add books to the shopping cart
         cart_book_form = CartAddBookForm()
 
         # reviews
@@ -55,7 +55,7 @@ def book_detail(request, book_id):
 
     except Book.DoesNotExist:
         raise Http404("Book does not exist")
-    return render(request, 'book/detail.html', templ_context)
+    return render(request, 'book/book_detail.html', templ_context)
 
 
 def author_list(request, author_id):
@@ -65,7 +65,7 @@ def author_list(request, author_id):
         context = {'author': author, 'book_list': book_list}
     except Author.DoesNotExist:
         raise Http404("Author does not exist")
-    return render(request, 'book/author.html', context)
+    return render(request, 'book/book_author.html', context)
 
 
 def book_review(request, book_id):
@@ -74,7 +74,7 @@ def book_review(request, book_id):
             user = request.user
             book_id = book_id
             review_data = json.loads(request.body)
-            #print book_id, user, review_data
+            # print book_id, user, review_data
     return HttpResponse("OK")
 
 
