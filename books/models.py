@@ -26,6 +26,9 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['title']
+
 
 class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
