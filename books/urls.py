@@ -5,7 +5,7 @@ from users import urls as users_urls
 app_name = 'books'
 urlpatterns = [
     # /books/  this will show a page with all the Books
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.book_list, name='index'),
 
     # /books/05/ this will show a page with the details od the views
     url(r'author/(?P<author_id>[0-9]+)/$',
