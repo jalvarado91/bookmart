@@ -14,14 +14,8 @@
                 </td>
             </tr>
         {% empty %}
-            <tr>No shipping addresses cards yet.</tr>
+            <tr>No shipping addresses registered .</tr>
         {% endfor %}
-        <script>
-            function clicked()
-            {
-                return comfirm('Remove shipping address?');
-            }
-        </script>
     </tbody>
 </table>
 {% endblock %}

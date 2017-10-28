@@ -4,7 +4,7 @@ from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.http import Http404
 from django.http import HttpResponseRedirect
@@ -12,29 +12,34 @@ from django.shortcuts import render
 from django.views.generic import FormView, CreateView
 from users.forms import UserProfileForm, SignUpForm
 from users.models import Profile, User
+from bookmart.utils import rendermessage, render_access_denied_message
 from . import forms
 
 
 @login_required
 def profile(request, user_id):
 
-    user = User.objects.get(pk=user_id)
-    profile = Profile.objects.get(pk=user_id)
-    ProfileFormset = inlineformset_factory(
-        User, Profile, fields=('nick_name', ), can_delete=False)
+    try:
+        user = User.objects.get(pk=user_id)
+        profile = Profile.objects.get(pk=user_id)
+        ProfileFormset = inlineformset_factory(
+            User, Profile, fields=('nick_name', ), can_delete=False)
+    except:
+        return render_access_denied_message(request)
 
     if request.user.is_authenticated() and request.user.id == user.id:
 
         if request.method == 'POST':
-            user_form = UserProfileForm(request.POST, instance=user)
-
+            user_form = UserProfileForm(instance=user, data=request.POST)
             if user_form.is_valid():
-                current_user = user_form.save(commit=False)
                 profile_formset = ProfileFormset(
                     request.POST, instance=profile)
-
                 if profile_formset.is_valid():
-                    current_user.save()
+                    assert False, user_form  # at this point both form are valid
+                    current_user = user_form.save()
+                    #saves a new user with empty username
+                    assert False, current_user
+                    profile_formset.user_id = user_id
                     profile_formset.save()
                     return confirmation_page(request, user_id)
 
@@ -50,22 +55,13 @@ def profile(request, user_id):
             'formset': profile_formset,
         })
     else:
-        raise Http404('Access denied')
+        render_access_denied_message(request)
 
 
 def confirmation_page(request, user_id):
-    return render(request, 'user_message.html', {
-        'page_title':
-        'Profile',
-        'page_header':
-        'Profile updated succefully',
-        'page_message':
-        '',
-        'url_to_redirect':
-        reverse('users:profile', None, [str(user_id)]),
-        'returning_page_name':
-        'profile page'
-    })
+    return rendermessage(request, 'Profile', 'Profile updated succefully', '',
+                         reverse('users:profile', None, [str(user_id)]),
+                         'profile page')
 
 
 @login_required
@@ -78,18 +74,10 @@ def changepassword(request, user_id):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return render(request, 'user_message.html', {
-                'page_title':
-                'Password Confirmation',
-                'page_header':
-                'Password changed succefully',
-                'page_message':
-                '',
-                'url_to_redirect':
-                reverse('users:profile', None, [str(user_id)]),
-                'returning_page_name':
-                'profile'
-            })
+            return render(request, 'Password Confirmation',
+                          'Password changed succefully', '',
+                          reverse('users:profile', None,
+                                  [str(user_id)]), 'profile')
 
     return render(request, 'users/changepassword.html', {
         'form': form,

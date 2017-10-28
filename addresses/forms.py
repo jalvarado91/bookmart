@@ -12,7 +12,6 @@ class AddressForm(forms.ModelForm):
         super(AddressForm, self).__init__(*args, **kwargs)
         self.fields['name'].required = True
         self.fields['address1'].required = True
-        self.fields['address2'].required = True
         self.fields['city'].required = True
         self.fields['zipcode'].required = True
 

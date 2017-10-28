@@ -45,3 +45,7 @@ class CreditCardForm(forms.ModelForm):
         #number = self.cleaned_data.get('number')
         #expdate = self.cleaned_data.get('expdate')
         #securitycode = self.cleaned_data.get('securitycode')
+
+
+class DeleteCreditCardConfirmation(forms.Form):
+    pass
