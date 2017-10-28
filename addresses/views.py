@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from addresses.models import Address
 from addresses.forms import AddressForm
+from bookmart.utils import rendermessage
 
 
 @login_required
@@ -13,6 +14,8 @@ def addressview(request, user_id, address_id=None):
     if address_id:
         try:
             address = Address.objects.get(pk=address_id)
+            addresses_list = Address.objects.filter(user=user_id).exclude(
+                pk=address_id)
         except:
             address = None
 
@@ -32,15 +35,19 @@ def addressview(request, user_id, address_id=None):
             newaddress = form.save(commit=False)
             newaddress.user_id = user_id
             newaddress.save()
-            return confirmation_page(request, user_id)
+            return rendermessage(request, 'New address confirmation',
+                                 'Shipping address added succefully', '',
+                                 reverse('users:addresses', None,
+                                         [str(user_id)]), 'addresses page')
 
     else:  # GET
         if address:
             data = {
                 'name': address.name,
-                'number': address.number,
-                'Expdate': address.expdate,
-                'Securitycode': address.securitycode,
+                'address1': address.address1,
+                'address2': address.address2,
+                'city': address.city,
+                'zipcode': address.zipcode,
             }
             form = AddressForm(instance=address)
             button_text = 'Modify shiping address'
@@ -54,19 +61,4 @@ def addressview(request, user_id, address_id=None):
         'form': form,
         'addresses_list': addresses_list,
         'button_text': button_text,
-    })
-
-
-def confirmation_page(request, user_id):
-    return render(request, 'user_message.html', {
-        'page_title':
-        'New address confirmation',
-        'page_header':
-        'Shipping address added succefully',
-        'page_message':
-        '',
-        'url_to_redirect':
-        reverse('users:profile', None, [str(user_id)]),
-        'returning_page_name':
-        'addresses page'
     })

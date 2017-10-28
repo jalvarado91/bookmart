@@ -3,6 +3,6 @@ from addresses.views import addressview
 from . import views
 
 urlpatterns = [
-    url(r'^addresses/$', addressview, name='addresses'),
-    url(r'^addresses/(?P<address_id>\d+)/$', addressview, name='addressbound'),
+    url(r'^$', addressview, name='addresses'),
+    url(r'^(?P<address_id>\d+)/$', addressview, name='addressbound'),
 ]
