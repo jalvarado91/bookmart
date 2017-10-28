@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.http import Http404, HttpResponse
 from django.db.models import Count, Avg
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from .models import Author, Book
 
@@ -10,9 +11,24 @@ import math
 import json
 
 
-def index(request):
+def book_list(request):
     all_books = Book.objects.all()
-    return render(request, 'book_list.html', {'all_books': all_books})
+    paginator = Paginator(all_books, 8)
+    page = request.GET.get('page')
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    index = books.number - 1
+    max_index = len(paginator.page_range)
+    start_index = index - 5 if index >= 5 else 0
+    end_index = index + 5 if index <= max_index - 5 else max_index
+    page_range = paginator.page_range[start_index:end_index]
+
+    return render(request, 'book_list.html', {'page': page, 'books': books, 'all_books': all_books, 'page_range': page_range})
 
 
 def book_detail(request, book_id):
