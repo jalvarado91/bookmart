@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import Http404
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.db.models import Count, Avg
+from django.shortcuts import render
+from carts.forms import CartAddBookForm
+from .models import Author, Book
+
 import math
 import json
 
-from .models import Book
-from .models import Author
-from carts.forms import CartAddBookForm
-from django.shortcuts import render
 
-
-# Create your views here.
-def index(request):  # this method defined by lida
+def index(request):
     all_books = Book.objects.all()
-    return render(request, 'book/book_list.html', {'all_books': all_books})
-    # return render(request, 'book/index2.html', context)
+    return render(request, 'book_list.html', {'all_books': all_books})
 
 
 def book_detail(request, book_id):
@@ -55,7 +51,7 @@ def book_detail(request, book_id):
 
     except Book.DoesNotExist:
         raise Http404("Book does not exist")
-    return render(request, 'book/book_detail.html', templ_context)
+    return render(request, 'book_detail.html', templ_context)
 
 
 def author_list(request, author_id):
@@ -65,7 +61,7 @@ def author_list(request, author_id):
         context = {'author': author, 'book_list': book_list}
     except Author.DoesNotExist:
         raise Http404("Author does not exist")
-    return render(request, 'book/book_author.html', context)
+    return render(request, 'book_author.html', context)
 
 
 def book_review(request, book_id):
