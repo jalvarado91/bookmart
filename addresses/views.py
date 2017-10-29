@@ -21,8 +21,8 @@ def addressview(request, user_id, address_id=None):
         except:
             return rendermessage(
                 request, 'Error', 'Shipping does not exist', '',
-                reverse('users:profile', None,
-                        [str(user_id)]), 'shipping addresses page')
+                reverse('users:addresses',
+                        args=[str(user_id)]), 'shipping addresses page')
 
     if request.method == "POST":
         if address:
@@ -36,8 +36,9 @@ def addressview(request, user_id, address_id=None):
             newaddress.save()
             return rendermessage(request, 'New address confirmation',
                                  'Shipping address added succefully', '',
-                                 reverse('users:addresses', None,
-                                         [str(user_id)]), 'addresses page')
+                                 reverse(
+                                     'users:addresses',
+                                     args=[str(user_id)]), 'addresses page')
 
     else:  # GET
         if address:
