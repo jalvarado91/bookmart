@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from addresses.models import Address
-from addresses.forms import AddressForm
-from bookmart.utils import rendermessage
+from addresses.forms import AddressForm, DeleteAddressConfirmation
+from bookmart.utils import rendermessage, renderconfirmation, render_access_denied_message
+from users.models import User
 
 
 @login_required
@@ -17,19 +19,16 @@ def addressview(request, user_id, address_id=None):
             addresses_list = Address.objects.filter(user=user_id).exclude(
                 pk=address_id)
         except:
-            address = None
+            return rendermessage(
+                request, 'Error', 'Shipping does not exist', '',
+                reverse('users:profile', None,
+                        [str(user_id)]), 'shipping addresses page')
 
     if request.method == "POST":
         if address:
             form = AddressForm(request.POST, instance=address)
         else:
-            data = {
-                'name': request.POST.get('name'),
-                'number': request.POST.get('number'),
-                'Expdate': request.POST.get('expdate'),
-                'Securitycode': request.POST.get('securitycode'),
-            }
-            form = AddressForm(request.POST, initial=data)
+            form = AddressForm(request.POST, initial=request.POST)
 
         if form.is_valid():
             newaddress = form.save(commit=False)
@@ -42,23 +41,48 @@ def addressview(request, user_id, address_id=None):
 
     else:  # GET
         if address:
-            data = {
-                'name': address.name,
-                'address1': address.address1,
-                'address2': address.address2,
-                'city': address.city,
-                'zipcode': address.zipcode,
-            }
             form = AddressForm(instance=address)
             button_text = 'Modify shiping address'
+            page_title = address.name
         else:
             form = AddressForm()
             button_text = 'Add new shipping address'
+            page_title = 'New'
 
     return render(request, 'addresses/addresses.html', {
         'user_id': user_id,
         'address': address,
+        'page_title': page_title,
         'form': form,
         'addresses_list': addresses_list,
         'button_text': button_text,
     })
+
+
+@login_required
+def addressdeleteview(request, user_id, address_id):
+
+    try:
+        user = User.objects.get(pk=user_id)
+        address = Address.objects.get(pk=address_id)
+    except:
+        return render_access_denied_message(request)
+
+    form = DeleteAddressConfirmation(request)
+    if request.method == 'POST':
+        form = DeleteAddressConfirmation(request.POST)
+        if request.POST.get('Confirm'):
+            #Confirmed deletion
+            address.delete()
+            return rendermessage(request, 'Delete confirmation',
+                                 'Shipping address removed succefully', '',
+                                 reverse('users:address', args=[str(user_id)]),
+                                 'shipping addresses page')
+        else:
+            # Cancelled deletion returned to the shippping addresses page
+            return HttpResponseRedirect(
+                reverse('users:addresses', args=[str(user_id)]))
+
+    return renderconfirmation(
+        request, form, 'Delete shipping address', 'Please confirm',
+        'Are you sure you want to delete the shipping address?')

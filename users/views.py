@@ -6,7 +6,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
-from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import FormView, CreateView
@@ -28,22 +27,22 @@ def profile(request, user_id):
         return render_access_denied_message(request)
 
     if request.user.is_authenticated() and request.user.id == user.id:
-
         if request.method == 'POST':
             user_form = UserProfileForm(instance=user, data=request.POST)
             if user_form.is_valid():
                 profile_formset = ProfileFormset(
                     request.POST, instance=profile)
+                assert False, profile_formset.is_valid()
                 if profile_formset.is_valid():
                     assert False, user_form  # at this point both form are valid
                     current_user = user_form.save()
                     #saves a new user with empty username
-                    assert False, current_user
+                    #assert False, current_user
                     profile_formset.user_id = user_id
                     profile_formset.save()
                     return confirmation_page(request, user_id)
 
-            raise Http404('Error validating forms')  # not valid
+            return render_access_denied_message(request)
 
         else:
             user_form = UserProfileForm(instance=user)
@@ -79,9 +78,11 @@ def changepassword(request, user_id):
                           reverse('users:profile', None,
                                   [str(user_id)]), 'profile')
 
-    return render(request, 'users/changepassword.html', {
-        'form': form,
-    })
+    return render(
+        request,
+        'users/changepassword.html',
+        {'form': form,
+         'user_name': User.objects.get(pk=user_id)})
 
 
 class LogoutView(LoginRequiredMixin, FormView):

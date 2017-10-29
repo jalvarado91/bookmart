@@ -20,19 +20,16 @@ def creditcardview(request, user_id, creditcard_id=None):
             creditcards_list = CreditCard.objects.filter(user=user_id).exclude(
                 pk=creditcard_id)
         except:
-            creditcard = None
+            return rendermessage(request, 'Error',
+                                 'Credit card does not exist', '',
+                                 reverse('users:profile', None,
+                                         [str(user_id)]), 'creditcards page')
 
     if request.method == "POST":
         if creditcard:
             creditcardform = CreditCardForm(request.POST, instance=creditcard)
         else:
-            data = {
-                'name': request.POST.get('name'),
-                'number': request.POST.get('number'),
-                'Expdate': request.POST.get('expdate'),
-                'Securitycode': request.POST.get('securitycode'),
-            }
-            creditcardform = CreditCardForm(request.POST, initial=data)
+            creditcardform = CreditCardForm(request.POST, initial=request.POST)
 
         if creditcardform.is_valid():
             newcreditcard = creditcardform.save(commit=False)
@@ -45,22 +42,19 @@ def creditcardview(request, user_id, creditcard_id=None):
 
     else:  # GET
         if creditcard:
-            data = {
-                'name': creditcard.name,
-                'number': creditcard.number,
-                'Expdate': creditcard.expdate,
-                'Securitycode': creditcard.securitycode,
-            }
             creditcardform = CreditCardForm(instance=creditcard)
             button_text = 'Modify credit card'
+            page_title = creditcard.name
         else:
             creditcardform = CreditCardForm()
             button_text = 'Add credit card'
+            page_title = 'New'
 
     return render(request, 'creditcards/creditcards.html', {
         'user_id': user_id,
         'creditcard': creditcard,
         'form': creditcardform,
+        'page_title': page_title,
         'creditcards_list': creditcards_list,
         'button_text': button_text,
     })
@@ -78,8 +72,8 @@ def creditcarddeleteview(request, user_id, creditcard_id):
     form = DeleteCreditCardConfirmation(request)
     if request.method == 'POST':
         form = DeleteCreditCardConfirmation(request.POST)
-        #Confirmed deletion
         if request.POST.get('Confirm'):
+            #Confirmed deletion
             creditcard.delete()
             return rendermessage(request, 'Delete confirmation',
                                  'Credit card removed succefully', '',
