@@ -20,7 +20,7 @@ def profile(request, user_id):
 
     try:
         user = User.objects.get(pk=user_id)
-        profile = Profile.objects.get(pk=user_id)
+        prfl = Profile.objects.get(pk=user_id)
         ProfileFormset = inlineformset_factory(
             User, Profile, fields=('nick_name', ), can_delete=False)
     except:
@@ -30,16 +30,16 @@ def profile(request, user_id):
         if request.method == 'POST':
             user_form = UserProfileForm(instance=user, data=request.POST)
             if user_form.is_valid():
-                profile_formset = ProfileFormset(
-                    request.POST, instance=profile)
-                assert False, profile_formset.is_valid()
+                profile_formset = ProfileFormset(request.POST, instance=prfl)
+                #assert False, user
                 if profile_formset.is_valid():
-                    assert False, user_form  # at this point both form are valid
+                    #assert False, user_form  # at this point both form are valid
                     current_user = user_form.save()
+                    #assert False, current_user
                     #saves a new user with empty username
                     #assert False, current_user
-                    profile_formset.user_id = user_id
-                    profile_formset.save()
+                    #profile_formset.user_id = user_id
+                    profile_formset.save(request.POST.get('nick_name'))
                     return confirmation_page(request, user_id)
 
             return render_access_denied_message(request)
@@ -59,7 +59,7 @@ def profile(request, user_id):
 
 def confirmation_page(request, user_id):
     return rendermessage(request, 'Profile', 'Profile updated succefully', '',
-                         reverse('users:profile', None, [str(user_id)]),
+                         reverse('users:profile', args=[str(user_id)]),
                          'profile page')
 
 
@@ -73,10 +73,10 @@ def changepassword(request, user_id):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return render(request, 'Password Confirmation',
-                          'Password changed succefully', '',
-                          reverse('users:profile', None,
-                                  [str(user_id)]), 'profile')
+            return rendermessage(request, 'Password Confirmation',
+                                 'Password changed succefully', '',
+                                 reverse('users:profile',
+                                         args=[str(user_id)]), 'profile')
 
     return render(
         request,
