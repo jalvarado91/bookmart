@@ -21,3 +21,7 @@ class AddressForm(forms.ModelForm):
         self.fields['address2'].widget.attrs['placeholder'] = 'Address 2'
         self.fields['city'].widget.attrs['placeholder'] = 'City'
         self.fields['zipcode'].widget.attrs['placeholder'] = 'Zip Code'
+
+
+class DeleteAddressConfirmation(forms.Form):
+    pass
