@@ -22,8 +22,9 @@ def creditcardview(request, user_id, creditcard_id=None):
         except:
             return rendermessage(request, 'Error',
                                  'Credit card does not exist', '',
-                                 reverse('users:profile', None,
-                                         [str(user_id)]), 'creditcards page')
+                                 reverse(
+                                     'users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
 
     if request.method == "POST":
         if creditcard:
@@ -37,8 +38,9 @@ def creditcardview(request, user_id, creditcard_id=None):
             newcreditcard.save()
             return rendermessage(request, 'Credit card confirmation',
                                  'Credit card added succefully', '',
-                                 reverse('users:profile', None,
-                                         [str(user_id)]), 'creditcards page')
+                                 reverse(
+                                     'users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
 
     else:  # GET
         if creditcard:

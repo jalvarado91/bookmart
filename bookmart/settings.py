@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'creditcards',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     'users',
     'books',
     'carts',
@@ -126,6 +127,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'assets')
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'users/media')
 
 # Authentication
 LOGIN_URL = 'home'

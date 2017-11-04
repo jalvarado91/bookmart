@@ -10,16 +10,13 @@ class LogoutForm(forms.Form):
 
 
 class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
+    first_name = forms.CharField(max_length=30, label='First name')
+    last_name = forms.CharField(max_length=30, label='Last name')
+    email = forms.EmailField()
 
-    def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance')
-        super(UserProfileForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
-        self.fields['email'].required = True
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'email']
 
     def validate_non_numeric(self, str_exp):
         pattern = re.compile(r"([a-zA-Z]+)")
@@ -42,26 +39,16 @@ class UserProfileForm(forms.ModelForm):
         return value
 
 
-"""
-    def clean(self):
-        super(UserProfileForm, self).clean()
-        self.first_name = self.cleaned_data.get('first_name')
-        self.last_name = self.cleaned_data.get('last_name')
-        self.email = self.cleaned_data.get('email')
-        self.username = self.cleaned_data.get('user')
-"""
-
-
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['nick_name']
+        fields = ['nick_name', 'image']
 
     def clean_nick_name(self):
-        value = self.cleaned_data['email']
+        value = self.cleaned_data['nick_name']
         pattern = re.compile(r"(^[a-zA-Z]+[a-zA-Z0-9-]+$)")
         if not pattern.match(value):
-            raise ValidationError('Email format is incorrect')
+            raise ValidationError('Nickname format is incorrect')
         return value
 
 

@@ -5,61 +5,72 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
-from django.forms.models import inlineformset_factory
+from django.core.files.storage import default_storage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import FormView, CreateView
-from users.forms import UserProfileForm, SignUpForm
+from django.views.generic import FormView, CreateView, UpdateView
+from users.forms import UserProfileForm, SignUpForm, ProfileForm
 from users.models import Profile, User
 from bookmart.utils import rendermessage, render_access_denied_message
+from bookmart.settings import BASE_DIR
+import os
 from . import forms
 
 
-@login_required
-def profile(request, user_id):
+class ProfileUpdateView(UpdateView):
+    template_name = 'users/profile.html'
+    model = Profile
+    form_class = UserProfileForm
+    second_form_class = ProfileForm
 
-    try:
-        user = User.objects.get(pk=user_id)
-        profile = Profile.objects.get(pk=user_id)
-        ProfileFormset = inlineformset_factory(
-            User, Profile, fields=('nick_name', ), can_delete=False)
-    except:
+    def form_valid(self, form, form2):
+        user = self.get_object().user
+        if form.is_valid() and form2.is_valid():
+            form.save()
+        return super(ProfileUpdateView, self).form_valid(form2)
+
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk', None)
+        self.request = request
+        if self.request.user.is_authenticated(
+        ) and self.request.user.id == int(kwargs['pk']):
+            super(ProfileUpdateView, self).get(request, *args, **kwargs)
+            user = User.objects.get(pk=pk)
+            prfl = Profile.objects.get(pk=pk)
+
+            # if the image was removed then show the default image
+            #if not default_storage.exists(prfl.image.url):
+            #    prfl.image.url = 'assets/img/user.png'
+
+            form = self.form_class(instance=user)
+            form2 = self.second_form_class(instance=prfl)
+            return self.render_to_response(
+                self.get_context_data(
+                    object=self.object, form=form, form2=form2))
+
         return render_access_denied_message(request)
 
-    if request.user.is_authenticated() and request.user.id == user.id:
-        if request.method == 'POST':
-            user_form = UserProfileForm(instance=user, data=request.POST)
-            if user_form.is_valid():
-                profile_formset = ProfileFormset(
-                    request.POST, instance=profile)
-                assert False, profile_formset.is_valid()
-                if profile_formset.is_valid():
-                    assert False, user_form  # at this point both form are valid
-                    current_user = user_form.save()
-                    #saves a new user with empty username
-                    #assert False, current_user
-                    profile_formset.user_id = user_id
-                    profile_formset.save()
-                    return confirmation_page(request, user_id)
-
-            return render_access_denied_message(request)
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk', None)
+        if pk is not None:
+            user = User.objects.get(pk=pk)
+            prfl = Profile.objects.get(pk=pk)
+            user_form = self.form_class(instance=user, data=request.POST)
+            profile_form = self.second_form_class(
+                instance=prfl, data=request.POST, files=request.FILES)
+            self.form_valid(user_form, profile_form)
+            return confirmation_page(request, pk)
 
         else:
-            user_form = UserProfileForm(instance=user)
-            profile_formset = ProfileFormset(instance=user)
+            render_access_denied_message(request)
 
-        return render(request, 'users/profile.html', {
-            'user_id': request.user.id,
-            'form': user_form,
-            'formset': profile_formset,
-        })
-    else:
-        render_access_denied_message(request)
+    def get_success_url(self):
+        return '/'
 
 
 def confirmation_page(request, user_id):
     return rendermessage(request, 'Profile', 'Profile updated succefully', '',
-                         reverse('users:profile', None, [str(user_id)]),
+                         reverse('users:profile', args=[str(user_id)]),
                          'profile page')
 
 
@@ -73,10 +84,10 @@ def changepassword(request, user_id):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return render(request, 'Password Confirmation',
-                          'Password changed succefully', '',
-                          reverse('users:profile', None,
-                                  [str(user_id)]), 'profile')
+            return rendermessage(request, 'Password Confirmation',
+                                 'Password changed succefully', '',
+                                 reverse('users:profile',
+                                         args=[str(user_id)]), 'profile')
 
     return render(
         request,

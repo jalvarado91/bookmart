@@ -4,13 +4,11 @@
     <tbody>
         {% for creditcard in creditcards_list %}
             <tr>
-                <td>
-                    <a href="{% url 'users:creditcardbound' user.id creditcard.id %}">{{ creditcard.name }}&nbsp&nbsp</a>
+                <td class="col-md-3">
+                    <a href="{% url 'users:creditcardbound' user.id creditcard.id %}">{{ creditcard.name }}&nbsp;&nbsp;</a>
                 </td>
-                <td>
-                    <div>
-                        <a href="{% url 'users:creditcarddelete' user.id creditcard.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                    </div>
+                <td class="col-md-1">
+                    <a href="{% url 'users:creditcarddelete' user.id creditcard.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 </td>
             </tr>
         {% empty %}

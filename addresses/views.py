@@ -77,7 +77,8 @@ def addressdeleteview(request, user_id, address_id):
             address.delete()
             return rendermessage(request, 'Delete confirmation',
                                  'Shipping address removed succefully', '',
-                                 reverse('users:address', args=[str(user_id)]),
+                                 reverse(
+                                     'users:addresses', args=[str(user_id)]),
                                  'shipping addresses page')
         else:
             # Cancelled deletion returned to the shippping addresses page
