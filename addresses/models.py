@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from users.models import Profile
+from django_countries.fields import CountryField
 
 
 class Address(models.Model):
@@ -11,3 +12,4 @@ class Address(models.Model):
     zipcode = models.CharField('Zip / Postal code', max_length=12, blank=False)
     city = models.CharField('City', max_length=150, blank=False)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=False)
+    country = CountryField()
