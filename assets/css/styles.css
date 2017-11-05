@@ -370,3 +370,10 @@ img::-moz-selection {
     opacity: 0;
     transition: opacity .35s ease;
 }
+
+.cc-icon{
+    padding-left: 15px;
+}
+
+
+

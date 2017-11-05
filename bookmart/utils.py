@@ -3,6 +3,9 @@ from django.core.urlresolvers import reverse
 
 
 def rendermessage(request, title, header, message, url, page_name):
+    """
+    Show a page with a mesage and a redirecting url
+    """
     return render(request, 'user_message.html', {
         'page_title': title,
         'page_header': header,
@@ -13,6 +16,9 @@ def rendermessage(request, title, header, message, url, page_name):
 
 
 def renderconfirmation(request, form, title, question_header, question_body):
+    """
+    Shows a page with two buttons
+    """
     return render(request, 'confirmation.html', {
         'form': form,
         'page_title': title,
@@ -22,6 +28,9 @@ def renderconfirmation(request, form, title, question_header, question_body):
 
 
 def render_access_denied_message(request):
+    """
+    Shows apge with an acces denied msg
+    """
     return rendermessage(request, 'Error', 'Access denied',
                          'Contact the administrator',
                          reverse('home'), 'home page')
