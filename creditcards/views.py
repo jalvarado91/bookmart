@@ -20,7 +20,7 @@ def creditcardview(request, user_id, creditcard_id=None):
             creditcards_list = CreditCard.objects.filter(user=user_id).exclude(
                 pk=creditcard_id)
         except:
-            return rendermessage(request, 'Error',
+            return rendermessage(request, 'Credit Card | Error',
                                  'Credit card does not exist', '',
                                  reverse(
                                      'users:creditcards',
@@ -36,12 +36,17 @@ def creditcardview(request, user_id, creditcard_id=None):
             newcreditcard = creditcardform.save(commit=False)
             newcreditcard.user_id = user_id
             newcreditcard.save()
-            return rendermessage(request, 'Credit card confirmation',
-                                 'Credit card added succefully', '',
+            return rendermessage(request, 'Credit card | Confirmation',
+                                 'Credit card added/updated succefully', '',
                                  reverse(
                                      'users:creditcards',
                                      args=[str(user_id)]), 'creditcards page')
 
+        return rendermessage(request, 'Credit card | Error', 'Credit card ',
+                             'There was an error processing the creditcard.' +
+                             creditcardform.error_message,
+                             reverse('users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
     else:  # GET
         if creditcard:
             creditcardform = CreditCardForm(instance=creditcard)
@@ -77,7 +82,7 @@ def creditcarddeleteview(request, user_id, creditcard_id):
         if request.POST.get('Confirm'):
             #Confirmed deletion
             creditcard.delete()
-            return rendermessage(request, 'Delete confirmation',
+            return rendermessage(request, 'Credit Card Delete | Confirmation',
                                  'Credit card removed succefully', '',
                                  reverse(
                                      'users:creditcards',
