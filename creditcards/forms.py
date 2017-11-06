@@ -50,9 +50,9 @@ class CreditCardForm(ModelForm):
         pattern2 = re.compile(
             americanexpress_pattern)  # four digits security code
 
-        if (pattern1.match(str(number))):
+        if pattern1.match(str(number)):
             security_code_pattern = re.compile(r'^[0-9]{3}$')  # 3
-        elif (pattern2.match(str(number))):
+        elif pattern2.match(str(number)):
             security_code_pattern = re.compile(r'^[0-9]{4}$')  # 4
         else:
             security_code_pattern = None

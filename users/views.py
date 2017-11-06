@@ -96,6 +96,22 @@ def changepassword(request, user_id):
          'user_name': User.objects.get(pk=user_id)})
 
 
+def resetpassword(request):
+    tesdkalka
+
+
+def resetpassworddone(request):
+    tesdkalka
+
+
+def resetpasswordconfirm(request):
+    tesdkalka
+
+
+def resetpasswordcomplete(request):
+    sdfsdgsdgsd
+
+
 class LogoutView(LoginRequiredMixin, FormView):
     form_class = forms.LogoutForm
     template_name = 'users/logout.html'
