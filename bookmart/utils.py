@@ -29,11 +29,19 @@ def renderconfirmation(request, form, title, question_header, question_body):
 
 def render_access_denied_message(request):
     """
-    Shows apge with an acces denied msg
+    Shows page with an acces denied msg
     """
     return rendermessage(request, 'Error', 'Access denied',
                          'Contact the administrator',
                          reverse('home'), 'home page')
+
+
+def wrong_url(request):
+    """
+    To be used when no url was matched
+    """
+    return rendermessage(request, 'Error', 'Url not found',
+                         'Please revise the url', reverse('home'), 'home page')
 
 
 """def generic_model_view(request,

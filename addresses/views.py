@@ -26,12 +26,12 @@ def addressview(request, user_id, address_id=None):
 
     if request.method == "POST":
         if address:
-            form = AddressForm(request.POST, instance=address)
+            addressform = AddressForm(request.POST, instance=address)
         else:
-            form = AddressForm(request.POST, initial=request.POST)
+            addressform = AddressForm(request.POST, initial=request.POST)
 
-        if form.is_valid():
-            newaddress = form.save(commit=False)
+        if addressform.is_valid():
+            newaddress = addressform.save(commit=False)
             newaddress.user_id = user_id
             newaddress.save()
             return rendermessage(request, 'New address confirmation',
@@ -40,13 +40,19 @@ def addressview(request, user_id, address_id=None):
                                      'users:addresses',
                                      args=[str(user_id)]), 'addresses page')
 
+        return rendermessage(
+            request, 'Shipping address | Error', 'Shipping address ',
+            'There was an error adding the shipping address. ' +
+            addressform.error_messages,
+            reverse('users:addresses',
+                    args=[str(user_id)]), 'shipping addresses page')
     else:  # GET
         if address:
-            form = AddressForm(instance=address)
+            addressform = AddressForm(instance=address)
             button_text = 'Modify shiping address'
             page_title = address.name
         else:
-            form = AddressForm()
+            addressform = AddressForm()
             button_text = 'Add new shipping address'
             page_title = 'New'
 
@@ -54,7 +60,7 @@ def addressview(request, user_id, address_id=None):
         'user_id': user_id,
         'address': address,
         'page_title': page_title,
-        'form': form,
+        'form': addressform,
         'addresses_list': addresses_list,
         'button_text': button_text,
     })
