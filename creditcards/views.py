@@ -43,7 +43,7 @@ def creditcardview(request, user_id, creditcard_id=None):
                                      args=[str(user_id)]), 'creditcards page')
 
         return rendermessage(request, 'Credit card | Error', 'Credit card ',
-                             'There was an error processing the creditcard.' +
+                             'There was an error processing the creditcard. ' +
                              creditcardform.error_message,
                              reverse('users:creditcards',
                                      args=[str(user_id)]), 'creditcards page')

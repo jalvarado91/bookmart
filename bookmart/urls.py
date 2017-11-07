@@ -8,6 +8,7 @@ from users import urls as user_urls
 from books import urls as book_urls
 from carts import urls as cart_urls
 from bookmart.views import HomePageView
+from bookmart.utils import wrong_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,5 +28,6 @@ urlpatterns = [
         {'template_name': 'registration/resetpasswordcomplete.html'}),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT
                                          }),
+    url(r'.*', wrong_url),
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT)
