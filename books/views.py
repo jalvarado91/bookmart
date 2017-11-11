@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.http import Http404, HttpResponse
 from django.db.models import Count, Avg
 from django.shortcuts import render
+from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from .models import Author, Book
@@ -12,6 +13,13 @@ import json
 
 
 def book_list(request):
+    queryset_list = Book.objects.all().order_by("title")
+    query = request.GET.get("q")
+    if query:
+        queryset_list = queryset_list.filter(title__icontains=query).distinct() | \
+            queryset_list.filter(authors__full_name__icontains=query).distinct() | \
+            queryset_list.filter(genre__icontains=query).distinct()
+
     all_books = Book.objects.all()
     paginator = Paginator(all_books, 12)
     page = request.GET.get('page')
@@ -22,13 +30,27 @@ def book_list(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
+    if query:
+        query = query
+    else:
+        query = "Books"
+
     index = books.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    return render(request, 'book_list.html', {'page': page, 'books': books, 'all_books': all_books, 'page_range': page_range})
+    context = {
+        "search": query,
+        "title": "Displaying all Results for: ",
+        'page': page,
+        'books': books,
+        'all_books': all_books,
+        'page_range': page_range
+    }
+
+    return render(request, 'book_list.html', context)
 
 
 def book_detail(request, book_id):
