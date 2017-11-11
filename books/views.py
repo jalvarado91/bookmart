@@ -13,7 +13,7 @@ import json
 
 def book_list(request):
     all_books = Book.objects.all()
-    paginator = Paginator(all_books, 8)
+    paginator = Paginator(all_books, 12)
     page = request.GET.get('page')
     try:
         books = paginator.page(page)
