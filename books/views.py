@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.http import Http404, HttpResponse
 from django.db.models import Count, Avg
 from django.shortcuts import render
+from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from .models import Author, Book
@@ -11,9 +12,50 @@ import math
 import json
 
 
+class AllAuthorsView(generic.TemplateView):
+    template_name = 'book_author_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AllAuthorsView, self).get_context_data(**kwargs)
+        context['a'] = Author.objects.filter(name__startswith="A")
+        context['b'] = Author.objects.filter(name__startswith="B")
+        context['c'] = Author.objects.filter(name__startswith="C")
+        context['d'] = Author.objects.filter(name__startswith="D")
+        context['e'] = Author.objects.filter(name__startswith="E")
+        context['f'] = Author.objects.filter(name__startswith="F")
+        context['g'] = Author.objects.filter(name__startswith="G")
+        context['h'] = Author.objects.filter(name__startswith="H")
+        context['i'] = Author.objects.filter(name__startswith="I")
+        context['j'] = Author.objects.filter(name__startswith="J")
+        context['k'] = Author.objects.filter(name__startswith="K")
+        context['l'] = Author.objects.filter(name__startswith="L")
+        context['m'] = Author.objects.filter(name__startswith="M")
+        context['n'] = Author.objects.filter(name__startswith="N")
+        context['o'] = Author.objects.filter(name__startswith="O")
+        context['p'] = Author.objects.filter(name__startswith="P")
+        context['q'] = Author.objects.filter(name__startswith="Q")
+        context['r'] = Author.objects.filter(name__startswith="R")
+        context['s'] = Author.objects.filter(name__startswith="S")
+        context['t'] = Author.objects.filter(name__startswith="T")
+        context['u'] = Author.objects.filter(name__startswith="U")
+        context['v'] = Author.objects.filter(name__startswith="V")
+        context['w'] = Author.objects.filter(name__startswith="W")
+        context['x'] = Author.objects.filter(name__startswith="X")
+        context['y'] = Author.objects.filter(name__startswith="Y")
+        context['z'] = Author.objects.filter(name__startswith="Z")
+
+        return context
+
+
 def book_list(request):
-    all_books = Book.objects.all()
-    paginator = Paginator(all_books, 8)
+    all_books = Book.objects.all().order_by("title")
+    query = request.GET.get("q")
+    if query:
+        all_books = all_books.filter(title__icontains=query).distinct() | \
+            all_books.filter(authors__name__icontains=query).distinct() | \
+            all_books.filter(genre__icontains=query).distinct()
+
+    paginator = Paginator(all_books, 12)
     page = request.GET.get('page')
     try:
         books = paginator.page(page)
@@ -22,13 +64,27 @@ def book_list(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
+    if query:
+        query = query
+    else:
+        query = "Books"
+
     index = books.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 5 if index >= 5 else 0
     end_index = index + 5 if index <= max_index - 5 else max_index
     page_range = paginator.page_range[start_index:end_index]
 
-    return render(request, 'book_list.html', {'page': page, 'books': books, 'all_books': all_books, 'page_range': page_range})
+    context = {
+        "search": query,
+        "title": "Displaying all Results for: ",
+        'page': page,
+        'books': books,
+        'all_books': all_books,
+        'page_range': page_range
+    }
+
+    return render(request, 'book_list.html', context)
 
 
 def book_detail(request, book_id):

@@ -1,16 +1,17 @@
 {% load static %}
 
-<div class="book-item">
+<div class="book-item" style="padding-bottom: 25px;">
   <a href="{% url 'books:detail' book.id %}">
-    <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="">
+    <img src="{% static book.cover_url %}" class="img-fluid rounded" alt="" style="height: 400px; width: 300px;">
   </a>
-  <div class="details mt-2">
+  <div class="details mt-2 text-center">
     <a class="name d-block" href="{% url 'books:detail' book.id %}">
       <strong>{{ book.title }}</strong>
     </a>
     {% for author in book.author.all|slice:"1" %}
-      <!--<a class="author" href="#">{{ author.name }}</a> -->
-      <a class="author" href="{% url 'books:author_books' author.id %}">{{ author.name }}</a>
+      <a class="author" href="{% url 'books:author_books' author.id %}">
+        <strong>{{ author.name }}</strong>
+      </a>
     {% endfor %}
   </div>
 </div>
