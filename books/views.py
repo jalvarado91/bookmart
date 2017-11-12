@@ -48,14 +48,13 @@ class AllAuthorsView(generic.TemplateView):
 
 
 def book_list(request):
-    queryset_list = Book.objects.all().order_by("title")
+    all_books = Book.objects.all().order_by("title")
     query = request.GET.get("q")
     if query:
-        queryset_list = queryset_list.filter(title__icontains=query).distinct() | \
-            queryset_list.filter(authors__name__icontains=query).distinct() | \
-            queryset_list.filter(genre__icontains=query).distinct()
+        all_books = all_books.filter(title__icontains=query).distinct() | \
+            all_books.filter(authors__name__icontains=query).distinct() | \
+            all_books.filter(genre__icontains=query).distinct()
 
-    all_books = Book.objects.all()
     paginator = Paginator(all_books, 12)
     page = request.GET.get('page')
     try:
@@ -68,7 +67,7 @@ def book_list(request):
     if query:
         query = query
     else:
-        query = "books"
+        query = "Books"
 
     index = books.number - 1
     max_index = len(paginator.page_range)
