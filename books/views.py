@@ -13,7 +13,7 @@ import json
 
 
 class AllAuthorsView(generic.TemplateView):
-    template_name = 'author_list.html'
+    template_name = 'book_author_list.html'
 
     def get_context_data(self, **kwargs):
         context = super(AllAuthorsView, self).get_context_data(**kwargs)
