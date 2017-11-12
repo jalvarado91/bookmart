@@ -12,12 +12,47 @@ import math
 import json
 
 
+class AllAuthorsView(generic.TemplateView):
+    template_name = 'author_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AllAuthorsView, self).get_context_data(**kwargs)
+        context['a'] = Author.objects.filter(name__startswith="A")
+        context['b'] = Author.objects.filter(name__startswith="B")
+        context['c'] = Author.objects.filter(name__startswith="C")
+        context['d'] = Author.objects.filter(name__startswith="D")
+        context['e'] = Author.objects.filter(name__startswith="E")
+        context['f'] = Author.objects.filter(name__startswith="F")
+        context['g'] = Author.objects.filter(name__startswith="G")
+        context['h'] = Author.objects.filter(name__startswith="H")
+        context['i'] = Author.objects.filter(name__startswith="I")
+        context['j'] = Author.objects.filter(name__startswith="J")
+        context['k'] = Author.objects.filter(name__startswith="K")
+        context['l'] = Author.objects.filter(name__startswith="L")
+        context['m'] = Author.objects.filter(name__startswith="M")
+        context['n'] = Author.objects.filter(name__startswith="N")
+        context['o'] = Author.objects.filter(name__startswith="O")
+        context['p'] = Author.objects.filter(name__startswith="P")
+        context['q'] = Author.objects.filter(name__startswith="Q")
+        context['r'] = Author.objects.filter(name__startswith="R")
+        context['s'] = Author.objects.filter(name__startswith="S")
+        context['t'] = Author.objects.filter(name__startswith="T")
+        context['u'] = Author.objects.filter(name__startswith="U")
+        context['v'] = Author.objects.filter(name__startswith="V")
+        context['w'] = Author.objects.filter(name__startswith="W")
+        context['x'] = Author.objects.filter(name__startswith="X")
+        context['y'] = Author.objects.filter(name__startswith="Y")
+        context['z'] = Author.objects.filter(name__startswith="Z")
+
+        return context
+
+
 def book_list(request):
     queryset_list = Book.objects.all().order_by("title")
     query = request.GET.get("q")
     if query:
         queryset_list = queryset_list.filter(title__icontains=query).distinct() | \
-            queryset_list.filter(authors__full_name__icontains=query).distinct() | \
+            queryset_list.filter(authors__name__icontains=query).distinct() | \
             queryset_list.filter(genre__icontains=query).distinct()
 
     all_books = Book.objects.all()
@@ -33,7 +68,7 @@ def book_list(request):
     if query:
         query = query
     else:
-        query = "Books"
+        query = "books"
 
     index = books.number - 1
     max_index = len(paginator.page_range)
