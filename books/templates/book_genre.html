@@ -4,14 +4,20 @@
 
 {% block content %}
 <div class="container">
-  <h2 class="text-center" style="padding-top: 25px; padding-bottom: 25px;"> {{ genre.name }} </h2>
+  <h1 class="text-center" style="padding-top: 25px; padding-bottom: 25px;"> {{ genre.name }} </h1>
 
-	<div class="row">
-		{% for book in book_list %}
-		<div class="col-xs-6 col-sm-6 col-md-3">
-			{% include "partials/book.html" %}
-		</div>
-		{% endfor %}
-	</div>
+  {% if book_list %}
+    <div class="row">
+    	{% for book in book_list %}
+    	<div class="col-xs-6 col-sm-6 col-md-3">
+    		{% include "partials/book.html" %}
+    	</div>
+    	{% endfor %}
+    </div>
+  {% else %}
+    <h6 class="text-center">
+      There are no books available in this genre.
+    </h6>
+  {% endif %}
 </div>
 {% endblock %}
