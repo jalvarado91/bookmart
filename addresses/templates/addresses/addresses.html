@@ -1,19 +1,21 @@
 {% extends "layout.html" %}
 {% load bootstrap3 %}
+{% block title %} Addresses | {{ page_title }}{% endblock %}
 {% block content %}
 	<div class="container">
-        <hr>
+        <br><br>
         <div class="row">
             <div class="col-lg-6">
-                <h2>Credit card information</h2>
-                {% include 'partials/_creditcards_detail.html' %}
-                {% if creditcard %}
-                    <a href="{% url 'users:creditcards' user.id %}">Clear the form for a new credit card</a>
+                <h2>Shipping address</h2>
+                {% include 'partials/_addresses_detail.html' %}
+                {% if address %}
+                    <a href="{% url 'users:addresses' user.id %}">Clear the form for a new address</a>
                 {% endif %}
             </div>
             <div class="col-lg-4 ml-auto">
-                 <h4>your credit cards</h4>
-                 {% include 'partials/_creditcards_list.html' %}
+                <br><br>
+                 <h4>your registered addresses</h4>
+                 {% include 'partials/_addresses_list.html' %}
                  <a href="{% url 'users:profile' user.id %}"><h5>Go back to your profile</h5></a>
             </div>
         </div>

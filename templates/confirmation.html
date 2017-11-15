@@ -8,7 +8,16 @@
             <h1>{{ question_header }}</h1>
             <p>{{ question_body }}</p>
             <form method="POST">
-
+                {% bootstrap_form form %}
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <button class="btn btn-block btn-lg btn-success" type="submit" name="Confirm" value="Confirm">Confirm</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="btn btn-block btn-lg btn-danger" type="submit" name="Cancel" value="Cancel">Cancel</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

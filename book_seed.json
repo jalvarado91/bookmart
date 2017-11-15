@@ -392,6 +392,118 @@
         }
     },
     {
+        "model": "books.book",
+        "pk": 21,
+        "fields": {
+            "title": "The Return of the King",
+            "cover_url": "covers/the-return-of-the-king.jpg",
+            "description": "As the Shadow of Mordor grows across the land, the Companions of the Ring have become involved in separate adventures. Aragorn, revealed as the hidden heir of the ancient Kings of the West, has joined with the Riders of Rohan against the forces of Isengard, and takes part in the desperate victory of the Hornburg. Merry and Pippin, captured by Orcs, escape into Fangorn Forest and there encounter the Ents. Gandalf has miraculously returned and defeated the evil wizard, Saruman. Sam has left his master for dead after a battle with the giant spider, Shelob; but Frodo is still alive—now in the foul hands of the Orcs. And all the while the armies of the Dark Lord are massing as the One Ring draws ever nearer to the Cracks of Doom.",
+            "genre": "Adventure",
+            "price": 8.99,
+            "publisher": "Random House Publishing Group",
+            "release_date": "1986-08-28T16:00:00Z",
+            "author": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 22,
+        "fields": {
+            "title": "The Fellowship of the Ring",
+            "cover_url": "covers/the-fellowship-of-the-ring.jpg",
+            "description": "In ancient times the Rings of Power were crafted by the Elven-smiths, and Sauron, the Dark Lord, forged the One Ring, filling it with his own power so that he could rule all others. But the One Ring was taken from him, and though he sought it throughout Middle-earth, it remained lost to him. After many ages it fell into the hands of Bilbo Baggins, as told in The Hobbit. In a sleepy village in the Shire, young Frodo Baggins finds himself faced with an immense task, as his elderly cousin Bilbo entrusts the Ring to his care. Frodo must leave his home and make a perilous journey across Middle-earth to the Cracks of Doom, there to destroy the Ring and foil the Dark Lord in his evil purpose.",
+            "genre": "Adventure",
+            "price": 8.99,
+            "publisher": "Random House Publishing Group",
+            "release_date": "1986-08-28T16:00:00Z",
+            "author": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 23,
+        "fields": {
+            "title": "Tender is the Night",
+            "cover_url": "covers/tender-is-the-night.jpg",
+            "description": "Published in 1934, Tender Is the Night was one of the most talked-about books of the year. \"It's amazing how excellent much of it is,\" Ernest Hemingway said to Maxwell Perkins. \"I will say now,\" John O'Hara wrote Fitzgerald, \"Tender Is the Night is in the early stages of being my favorite book, even more than This Side of Paradise.",
+            "genre": "Novel",
+            "price": 16.24,
+            "publisher": "Scribner",
+            "release_date": "1995-07-01T16:00:00Z",
+            "author": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 24,
+        "fields": {
+            "title": "This Side of Paradise",
+            "cover_url": "covers/this-side-of-paradise.jpg",
+            "description": "This Side of Paradise centres on Amory Blaine, a young Midwesterner who, convinced that he has an exceptionally promising future, attends boarding school and later Princeton University. Amory has an unsuccessful attempt at love, and is shipped overseas to serve in World War I. When Amory returns home, he struggles to find love among the status driven women of New York City",
+            "genre": "Novel",
+            "price": 39.95,
+            "publisher": "Engage Books",
+            "release_date": "2016-12-06T16:00:00Z",
+            "author": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 25,
+        "fields": {
+            "title": "I'd Die for You: And Other Lost Stories",
+            "cover_url": "covers/i-die-for-you-and-other-lost-stories.jpg",
+            "description": "I'd Die for You stands apart by shining a light on Fitzgerald's darker, more autobiographical side.. a necessary and welcome addition to his oeuvre….Its value derives largely from the different note struck by these stories, the ways in which they diverge from the work that Fitzgerald is often known for. The collection demonstrates his tremendous range, macabre wit, and above all, his risk-taking, most notably in the emotional core of the stories and the unflinching reality from which they derive.",
+            "genre": "Novel",
+            "price": 18.30,
+            "publisher": "Scribner",
+            "release_date": "2017-04-17T16:00:00Z",
+            "author": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 26,
+        "fields": {
+            "title": "The Hobbit",
+            "cover_url": "covers/the-hobbit.jpg",
+            "description": "Bilbo Baggins is a hobbit who enjoys a comfortable, unambitious life, rarely traveling any farther than his pantry or cellar. But his contentment is disturbed when the wizard Gandalf and a company of dwarves arrive on his doorstep one day to whisk him away on an adventure. They have launched a plot to raid the treasure hoard guarded by Smaug the Magnificent, a large and very dangerous dragon. Bilbo reluctantly joins their quest, unaware that on his journey to the Lonely Mountain he will encounter both a magic ring and a frightening creature known as Gollum.",
+            "genre": "Adventure",
+            "price": 10.63,
+            "publisher": "Mariner Books",
+            "release_date": "1986-08-28T16:00:00Z",
+            "author": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "books.book",
+        "pk": 27,
+        "fields": {
+            "title": "The Silmarillion",
+            "cover_url": "covers/the-silmarillion.jpg",
+            "description": "The story of the creation of the world and of the First Age, this is the ancient drama to which the characters in The Lord of the Rings look back and in whose events some of them, such as Elrond and Galadriel, took part. The three Silmarils were jewels created by Fëanor, most gifted of the Elves. Within them was imprisoned the Light of the Two Trees of Valinor before the Trees themselves were destroyed by Morgoth, the first Dark Lord. Thereafter, the unsullied Light of Valinor lived on only in the Silmarils, but they were seized by Morgoth and set in his crown, which was guarded in the impenetrable fortress of Angband in the north of Middle-earth. The Silmarillion is the history of the rebellion of Fëanor and his kindred against the gods, their exile from Valinor and return to Middle-earth, and their war, hopeless despite all their heroism, against the great Enemy.",
+            "genre": "Adventure",
+            "price": 19.78,
+            "publisher": "Mariner Books",
+            "release_date": "2014-10-07T16:00:00Z",
+            "author": [
+                5
+            ]
+        }
+    },
+    {
         "model": "books.review",
         "pk": 2,
         "fields": {

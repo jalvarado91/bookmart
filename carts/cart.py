@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
+from collections import defaultdict
 from books.models import Book
 
 class Cart(object):
@@ -19,7 +20,6 @@ class Cart(object):
         """
         Add a product to the cart or update its quantity.
         """
-        print("adding")
         book_id = str(book.id)
         if book_id not in self.cart:
             self.cart[book_id] = {'quantity': 0,

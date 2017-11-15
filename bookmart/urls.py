@@ -1,27 +1,14 @@
-"""bookmart URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url, include
 from django.contrib import admin
-
-from django.contrib.auth.views import password_reset, password_reset_done, password_reset_confirm, password_reset_complete
-
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.static import serve
 from users import urls as user_urls
 from books import urls as book_urls
 from carts import urls as cart_urls
 from bookmart.views import HomePageView
+from bookmart.utils import wrong_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,13 +16,18 @@ urlpatterns = [
     url(r'^carts/', include(cart_urls)),
     url(r'^books/', include(book_urls)),
     url(r'^$', HomePageView.as_view(), name='home'),
-    url(r'^resetpassword/$', password_reset, name='resetpassword'),
-    url(r'^resetpassworddone/$', password_reset_done,
-        name='resetpassworddone'),
-    url(r'^resetpasswordconfirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$',
-        password_reset_confirm,
-        name='resetpasswordconfirm'),
-    url(r'^resetpasswordcomplete/$',
-        password_reset_complete,
-        name='resetpasswordcomplete'),
-]
+    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^resetpassword/$', auth_views.password_reset,
+        {'template_name': 'registration/resetpassword.html'}),
+    url(r'^resetpassword/done/$', auth_views.password_reset_done,
+        {'template_name': 'registration/resetpassworddone.html'}),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.password_reset_confirm,
+        {'template_name': 'registration/resetpasswordconfirm.html'}),
+    url(r'^reset/done/$', auth_views.password_reset_complete,
+        {'template_name': 'registration/resetpasswordcomplete.html'}),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT
+                                         }),
+    url(r'.*', wrong_url),
+] + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT)

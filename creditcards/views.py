@@ -1,85 +1,97 @@
-from creditcards.forms import CreditCardForm
-from creditcards.models import CreditCard
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from creditcards.forms import CreditCardForm, DeleteCreditCardConfirmation
+from creditcards.models import CreditCard
+from users.models import User
+from bookmart.utils import rendermessage, renderconfirmation, render_access_denied_message
 
 
 @login_required
 def creditcardview(request, user_id, creditcard_id=None):
-    creditcard = None
-    creditcards_list = CreditCard.objects.all().filter(user=user_id)
 
+    # instantiate variables
+    creditcard = None
+    creditcards_list = CreditCard.objects.filter(user=user_id)
     if creditcard_id:
         try:
             creditcard = CreditCard.objects.get(pk=creditcard_id)
+            creditcards_list = CreditCard.objects.filter(user=user_id).exclude(
+                pk=creditcard_id)
         except:
-            creditcard = None
+            return rendermessage(request, 'Credit Card | Error',
+                                 'Credit card does not exist', '',
+                                 reverse(
+                                     'users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
 
     if request.method == "POST":
         if creditcard:
-            form = CreditCardForm(request.POST, instance=creditcard)
+            creditcardform = CreditCardForm(request.POST, instance=creditcard)
         else:
-            data = {
-                'name': request.POST.get('name'),
-                'number': request.POST.get('number'),
-                'Expdate': request.POST.get('expdate'),
-                'Securitycode': request.POST.get('securitycode'),
-            }
-            form = CreditCardForm(request.POST, initial=data)
+            creditcardform = CreditCardForm(request.POST, initial=request.POST)
 
-        if form.is_valid():
-            newcreditcard = form.save(commit=False)
+        if creditcardform.is_valid():
+            newcreditcard = creditcardform.save(commit=False)
             newcreditcard.user_id = user_id
             newcreditcard.save()
-            return confirmation_page(request, user_id)
+            return rendermessage(request, 'Credit card | Confirmation',
+                                 'Credit card added/updated succefully', '',
+                                 reverse(
+                                     'users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
 
+        return rendermessage(request, 'Credit card | Error', 'Credit card ',
+                             'There was an error processing the creditcard. ' +
+                             creditcardform.error_message,
+                             reverse('users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
     else:  # GET
-        #assert False, creditcard.id
         if creditcard:
-            data = {
-                'name': creditcard.name,
-                'number': creditcard.number,
-                'Expdate': creditcard.expdate,
-                'Securitycode': creditcard.securitycode,
-            }
-            form = CreditCardForm(instance=creditcard)
+            creditcardform = CreditCardForm(instance=creditcard)
             button_text = 'Modify credit card'
+            page_title = creditcard.name
         else:
-            form = CreditCardForm()
+            creditcardform = CreditCardForm()
             button_text = 'Add credit card'
+            page_title = 'New'
 
     return render(request, 'creditcards/creditcards.html', {
         'user_id': user_id,
         'creditcard': creditcard,
-        'form': form,
+        'form': creditcardform,
+        'page_title': page_title,
         'creditcards_list': creditcards_list,
         'button_text': button_text,
     })
 
 
-def confirmation_page(request, user_id):
-    return render(request, 'user_message.html', {
-        'page_title':
-        'Credit card confirmation',
-        'page_header':
-        'Credit card added succefully',
-        'page_message':
-        '',
-        'url_to_redirect':
-        reverse('users:profile', None, [str(user_id)]),
-        'returning_page_name':
-        'creditcards page'
-    })
+@login_required
+def creditcarddeleteview(request, user_id, creditcard_id):
 
+    try:
+        user = User.objects.get(pk=user_id)
+        creditcard = CreditCard.objects.get(pk=creditcard_id)
+    except:
+        return render_access_denied_message(request)
 
-"""
-class CreditCardDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'creditcards/creditcards_detail.html'
-    model = CreditCard
+    form = DeleteCreditCardConfirmation(request)
+    if request.method == 'POST':
+        form = DeleteCreditCardConfirmation(request.POST)
+        if request.POST.get('Confirm'):
+            #Confirmed deletion
+            creditcard.delete()
+            return rendermessage(request, 'Credit Card Delete | Confirmation',
+                                 'Credit card removed succefully', '',
+                                 reverse(
+                                     'users:creditcards',
+                                     args=[str(user_id)]), 'creditcards page')
+        else:
+            # Cancelled deletion returned to credit cards page
+            return HttpResponseRedirect(
+                reverse('users:creditcards', args=[str(user_id)]))
 
-
-class CreditCardListView(LoginRequiredMixin, ListView):
-    template_name = 'creditcards/creditcards_list.html'
-    model = CreditCard
-"""
+    return renderconfirmation(
+        request, form, 'Delete credit card', 'Please confirm',
+        'Are you sure you want to delete the credit card?')
