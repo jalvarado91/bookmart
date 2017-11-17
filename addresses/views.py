@@ -43,7 +43,7 @@ def addressview(request, user_id, address_id=None):
         return rendermessage(
             request, 'Shipping address | Error', 'Shipping address ',
             'There was an error adding the shipping address. ' +
-            addressform.error_messages,
+            addressform.error_message,
             reverse('users:addresses',
                     args=[str(user_id)]), 'shipping addresses page')
     else:  # GET

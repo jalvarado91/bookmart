@@ -84,6 +84,7 @@ class CreditCardForm(ModelForm):
             self._errors[
                 'securitycode'] = 'Please verify the credit card security code'
 
+        self.error_message = ''
         if len(self.error_messages):
             self.error_message = ' & '.join(self.error_messages)
             raise forms.ValidationError(' & '.join(self.error_messages))
