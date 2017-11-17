@@ -46,7 +46,8 @@ class ProfileForm(forms.ModelForm):
 
     def clean_nick_name(self):
         value = self.cleaned_data['nick_name']
-        pattern = re.compile(r"(^[a-zA-Z]+[a-zA-Z0-9-]+$)")
+
+        pattern = re.compile(r"(^[a-zA-Z]*[a-zA-Z0-9-]*$)")
         if not pattern.match(value):
             raise ValidationError('Nickname format is incorrect')
         return value
