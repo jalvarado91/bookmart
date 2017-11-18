@@ -376,4 +376,12 @@ img::-moz-selection {
 }
 
 
+footer {
+    position: relative;
+    margin-top: -20px; 
+    height: 20px;
+    clear:both;
+    line-height: 20px; 
+    border-top: 4px solid #007FFF;
+} 
 
