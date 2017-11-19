@@ -64,7 +64,14 @@ var detailsApp = new Vue({
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(review_data)
       }).done(function(response) {
-        console.log(response);
+        if (response.indexOf("Saved") >= 0) {
+          window.location.reload();
+        }
+        else {
+          console.log(response);
+        }
+      }).error(function(error) {
+        alert(error.responseText);
       });
     },
     

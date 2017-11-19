@@ -5,9 +5,19 @@
 {% block content %}
 
 <div id="detailsApp" class="container pt-4 pb-4">
+    {% if messages %}
+        <div class="alert alert-success" role="alert">
+            <ul class="mb-0">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
-        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.name }}</em></a> {% endfor %}
+        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.nickname }}</em></a> {% endfor %}
     </h5>
 
     <div class="row justify-content-md-center">
@@ -77,10 +87,12 @@
                 <li class="nav-item">
                     <a  class="nav-link" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
                 </li>
-
+                
+                {% if user.id %}
                 <li class="nav-item ml-auto">
                     <a  class="nav-link" rel="panel4" href="#"><strong>Add Review</strong></a>
                 </li>
+                {% endif %}
             </ul>
 
             <div id="panel1" class="col-xs-12 p-4 panel active">
@@ -97,7 +109,7 @@
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
                     <h5 class="reviewer mb-1">
-                        By {% if review.author.profile.nick_name %} {{review.author.profile.nick_name}} {% else %}Anonymous{% endif %}
+                        By {% if not review.anonymous %} {{review.author.username}} {% else %}Anonymous{% endif %}
                     </h5>
                     <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
                     <div class="rating mb-2">
@@ -114,11 +126,7 @@
                         {% endif %}
                     </div>
                     {% if review.comments %}
-                        <div class="comment">I loved re-reading IT all over again. I began remembering as I read and I love how I can always picture in my mind Stephen King books as I read them. the characters are so much fun to learn about as you read the story. So much detail and it makes it even extra special
-                            No you do not need to read the book to see the movie however I highly recommend reading this book.
-                            it is a wonderfully creepy book to read
-                            thank you Stephen King: I love your books
-                        </div>
+                        <div class="comment">{{review.comments}}</div>
                     {% else %}
                         <div></div>
                     {% endif %}
@@ -126,7 +134,7 @@
                 {% endfor %}
             </div>
 
-
+            {% if user.id %}
             <div id="panel4" class="col-xs-12 p-4 review-panel panel">
                 <h4 class="mb-4">Add Review</h4>
 
@@ -157,6 +165,7 @@
                     </div>
                 </form>
             </div>
+            {% endif %}
         </div>
     </div>
 

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.db.models import Count, Avg
 from django.shortcuts import render
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
-from .models import Author, Book
+from django.contrib import messages
+from .models import Author, Book, Review
 
 import math
 import json
@@ -138,13 +139,38 @@ def author_list(request, author_id):
 
 def book_review(request, book_id):
     if request.is_ajax():
-        if request.method == 'POST':
-            user = request.user
-            book_id = book_id
-            review_data = json.loads(request.body)
-            # print book_id, user, review_data
+        try:
+            if request.method == 'POST':
+                user = request.user
+                book_id = book_id
+                review_data = json.loads(request.body)
+                # print book_id, user, review_data
+                if not review_data['rating'] and not review_data['comments']:
+                    raise Exception("Need rating or comment")
+                review = create_review(
+                    book_id, 
+                    user,
+                    review_data['rating'], 
+                    review_data['comments'], 
+                    review_data['anonymous']
+                )
+                review.save()
+                messages.add_message(request, messages.INFO, 'Your review was saved!')
+                return HttpResponse("Saved")
+        except Exception as inst:
+            return HttpResponseBadRequest(inst)
     return HttpResponse("OK")
+    
 
+def create_review(book_id, user, rating, comments, anonymous):
+    book = Book.objects.get(pk=book_id)
+    incognito = False
+    if anonymous:
+        incognito = anonymous
+    if rating == 0:
+        rating = None
+    review = Review(book=book, author=user, rating=rating, comments=comments, anonymous=incognito)
+    return review
 
 def get_review_stats(reviews):
     aggs = []

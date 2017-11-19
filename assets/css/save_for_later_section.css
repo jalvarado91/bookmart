@@ -59,22 +59,6 @@
   content: '$';
 }
 
-/* Body/Header stuff */
-body {
-  padding: 0px 30px 30px 20px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-}
-
-h1 {
-  font-weight: 10;
-}
-
-label {
-  color: #aaa;
-  font-size: 18px;
-}
-
 .items-saved-for-later {
   margin-top: -45px;
 }

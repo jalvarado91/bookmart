@@ -36,6 +36,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    anonymous = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'review for {0}: rating {1}'.format(self.book, self.rating)
+        return 'review for {0}: rating {1}, comment {2}, anonymous {3}'.format(self.book, self.rating, self.comments, self.anonymous)
