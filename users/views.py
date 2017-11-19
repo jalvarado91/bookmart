@@ -58,6 +58,7 @@ class ProfileUpdateView(UpdateView):
             user_form = self.form_class(instance=user, data=request.POST)
             profile_form = self.second_form_class(
                 instance=prfl, data=request.POST, files=request.FILES)
+            #assert False, profile_form
             self.form_valid(user_form, profile_form)
             return confirmation_page(request, pk)
 
@@ -96,22 +97,6 @@ def changepassword(request, user_id):
          'user_name': User.objects.get(pk=user_id)})
 
 
-def resetpassword(request):
-    tesdkalka
-
-
-def resetpassworddone(request):
-    tesdkalka
-
-
-def resetpasswordconfirm(request):
-    tesdkalka
-
-
-def resetpasswordcomplete(request):
-    sdfsdgsdgsd
-
-
 class LogoutView(LoginRequiredMixin, FormView):
     form_class = forms.LogoutForm
     template_name = 'users/logout.html'
@@ -124,4 +109,4 @@ class LogoutView(LoginRequiredMixin, FormView):
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = 'users/signup.html'
-    success_url = '/users/login'
+    success_url = '/users/login/'

@@ -7,7 +7,7 @@ from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from django.contrib import messages
-from .models import Author, Book, Review
+from .models import Author, Book, Review, Genre
 
 import math
 import json
@@ -135,6 +135,23 @@ def author_list(request, author_id):
     except Author.DoesNotExist:
         raise Http404("Author does not exist")
     return render(request, 'book_author.html', context)
+
+
+def genre_list(request, genre_id):
+    try:
+        genre = Genre.objects.get(pk=genre_id)
+        book_list = Book.objects.all().filter(genre=genre)
+        context = {'genre': genre, 'book_list': book_list}
+    except Genre.DoesNotExist:
+        raise Http404("Genre does not exist")
+    return render(request, 'book_genre.html', context)
+
+
+def book_genre(request):
+    genre_list = Genre.objects.all()
+    context = {'genres': genre_list}
+
+    return render(request, 'book_genre_list.html', context)
 
 
 def book_review(request, book_id):

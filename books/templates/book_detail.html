@@ -41,7 +41,7 @@
             <!-- <h4>Book Details</h4>  -->
             <p>
                 <strong>Publisher: </strong>{{ book.publisher }} <br/>
-                <strong>Genre: </strong>{{ book.genre }} <br/>
+                <strong>Genre: {% for genre in book.genre.all|slice:"1" %} </strong>{{ genre.name }} <br/> {% endfor %}
                 <strong>Release Date: </strong>{{ book.release_date|date:"M d Y" }} <br/>
             </p>
 

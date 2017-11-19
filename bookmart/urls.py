@@ -11,21 +11,21 @@ from bookmart.views import HomePageView
 from bookmart.utils import wrong_url
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^users/', include(user_urls, namespace='users')),
-    url(r'^carts/', include(cart_urls)),
-    url(r'^books/', include(book_urls)),
-    url(r'^$', HomePageView.as_view(), name='home'),
-    url(r'^', include('django.contrib.auth.urls')),
     url(r'^resetpassword/$', auth_views.password_reset,
         {'template_name': 'registration/resetpassword.html'}),
-    url(r'^resetpassword/done/$', auth_views.password_reset_done,
+    url(r'^password_reset/done/$', auth_views.password_reset_done,
         {'template_name': 'registration/resetpassworddone.html'}),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm,
         {'template_name': 'registration/resetpasswordconfirm.html'}),
     url(r'^reset/done/$', auth_views.password_reset_complete,
         {'template_name': 'registration/resetpasswordcomplete.html'}),
+    url(r'^admin/', admin.site.urls),
+    url(r'^users/', include(user_urls, namespace='users')),
+    url(r'^carts/', include(cart_urls)),
+    url(r'^books/', include(book_urls)),
+    url(r'^$', HomePageView.as_view(), name='home'),
+    url(r'^', include('django.contrib.auth.urls')),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT
                                          }),
     url(r'.*', wrong_url),
