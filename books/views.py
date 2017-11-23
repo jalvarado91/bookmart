@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from django.contrib import messages
 from .models import Author, Book, Review, Genre
+from purchases.models import Purchase
 
 import math
 import json
@@ -111,6 +112,8 @@ def book_detail(request, book_id):
             rating_filled = None
             rating_empty = None
 
+        review_allowed = can_review_book(request, book)
+
         templ_context = {
             'book': book,
             'cart_book_form': cart_book_form,
@@ -119,7 +122,8 @@ def book_detail(request, book_id):
             'rating_filled': rating_filled,
             'rating_empty': rating_empty,
             'avg_rating': avg_rating,
-            'rating_count': rating_count
+            'rating_count': rating_count,
+            'review_allowed': review_allowed
         }
 
     except Book.DoesNotExist:
@@ -178,6 +182,21 @@ def book_review(request, book_id):
             return HttpResponseBadRequest(inst)
     return HttpResponse("OK")
     
+## Helpers
+
+def can_review_book(request, book):
+    if request.user.is_authenticated:
+        # check if have purchase
+        user = request.user
+        try: 
+            purchase = Purchase.objects.get(user=user, book=book)
+            print("purchase found: ", purchase)
+            return True
+        except Purchase.DoesNotExist:
+            print("purchase not found")
+            return False
+    else: 
+        return False
 
 def create_review(book_id, user, rating, comments, anonymous):
     book = Book.objects.get(pk=book_id)

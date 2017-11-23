@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'books',
     'carts',
+    'purchases',
     'localflavor',
     'addresses',
     'bootstrap3',

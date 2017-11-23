@@ -88,7 +88,7 @@
                     <a  class="nav-link" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
                 </li>
                 
-                {% if user.id %}
+                {% if user.id and review_allowed %}
                 <li class="nav-item ml-auto">
                     <a  class="nav-link" rel="panel4" href="#"><strong>Add Review</strong></a>
                 </li>
@@ -134,7 +134,7 @@
                 {% endfor %}
             </div>
 
-            {% if user.id %}
+            {% if user.id and review_allowed %}
             <div id="panel4" class="col-xs-12 p-4 review-panel panel">
                 <h4 class="mb-4">Add Review</h4>
 
