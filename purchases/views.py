@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from carts.cart import Cart
 from books.models import Book
@@ -7,11 +8,14 @@ from purchases.models import Purchase
 from django.contrib import messages
 
 # Create your views here.
+@login_required
 def confirm(request):
     cart = Cart(request)
     ctx = {'cart': cart}
     return render(request, 'purchase/confirm.html', ctx)
 
+
+@login_required
 def checkout(request):
     cart = Cart(request)
     books_in_cart = cart.get_books()
