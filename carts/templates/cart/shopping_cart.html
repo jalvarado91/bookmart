@@ -76,8 +76,8 @@
       <div class="totals-value" id="cart-subtotal">{{ cart.get_total_price }}</div>
     </div>
   </div>
-  <button class="checkout">Checkout</button>
-  <a class="continue" href="{% url 'home' %}">Continue Shopping</a>
+  <a class="continue btn btn-lg" href="{% url 'home' %}">Continue Shopping</a>
+  <a class="checkout btn btn-lg" href="{% url 'purchases:confirm' %}">Confirm and Checkout</a>
   </div>
 
 

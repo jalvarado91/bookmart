@@ -9,5 +9,4 @@ urlpatterns = [
     url(r'^save/(?P<book_id>\d+)/$', views.save_for_later, name='save_for_later'),
     url(r'^addBackToCart(?P<savedItems_id>\d+)/$', views.move_to_cart, name='move_to_cart'),
     url(r'^(?P<savedItems_id>\d+)/$', views.delete_from_saved, name='delete_from_saved')
-
-    ]
+]

@@ -189,9 +189,8 @@ def can_review_book(request, book):
         # check if have purchase
         user = request.user
         try: 
-            purchase = Purchase.objects.get(user=user, book=book)
-            print("purchase found: ", purchase)
-            return True
+            purchases = Purchase.objects.filter(user=user, book=book)
+            return len(purchases) > 0
         except Purchase.DoesNotExist:
             print("purchase not found")
             return False

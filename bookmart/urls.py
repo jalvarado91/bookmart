@@ -7,6 +7,7 @@ from django.views.static import serve
 from users import urls as user_urls
 from books import urls as book_urls
 from carts import urls as cart_urls
+from purchases import urls as purchases_urls
 from bookmart.views import HomePageView
 from bookmart.utils import wrong_url
 
@@ -23,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include(user_urls, namespace='users')),
     url(r'^carts/', include(cart_urls)),
+    url(r'^purchases/', include(purchases_urls)),
     url(r'^books/', include(book_urls)),
     url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^', include('django.contrib.auth.urls')),

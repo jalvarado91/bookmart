@@ -16,6 +16,11 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
+    def get_books(self):
+        book_ids = self.cart.keys()
+        books = Book.objects.filter(id__in=book_ids)
+        return books
+
     def add(self, book, quantity=1, update_quantity=False):
         """
         Add a product to the cart or update its quantity.
@@ -38,6 +43,10 @@ class Cart(object):
         if book_id in self.cart:
             del self.cart[book_id]
             self.save()
+
+    def remove_many(self, books):
+        for book in books:
+            self.remove(book)
 
     def save(self):
         # update the session cart
