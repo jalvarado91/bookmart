@@ -32,10 +32,12 @@ Vue.component('star-rating', {
 
 var detailsApp = new Vue({
   el: '#panel4',
+  delimiters: ["{-", "-}"],
   data: {
     book_id: null,
     rating: 0,
     comments: '',
+    commentLimit: 250,
     anonymous: false,
 
     loading: false
@@ -44,6 +46,12 @@ var detailsApp = new Vue({
   computed: {
     allowSubmit: function() {
       return this.comments.trim().length > 0 || this.rating != 0
+    },
+    remainintChars: function() {
+      return this.commentLimit - this.commentText.length;
+    },
+    commentText: function() {
+      return this.comments.substr(0, this.commentLimit);
     }
   },
 
@@ -74,7 +82,10 @@ var detailsApp = new Vue({
         alert(error.responseText);
       });
     },
-    
+    onCommentChange: function(event) {
+      var val = event.target.value;
+      this.comments = val;
+    },
     onRatingChange: function(rating) {
       this.rating = rating;
     }

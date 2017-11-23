@@ -148,7 +148,10 @@
 
                     <div class="form-group">
                         <label for="comments">Comments</label>
-                        <textarea v-model="comments" class="form-control" id="comments" rows="4"></textarea>
+                        <textarea @input="onCommentChange" :value="commentText" class="form-control" id="comments" rows="4"></textarea>
+                        <div class="text-right">
+                            {- remainintChars -} characters left
+                        </div>
                     </div>
 
                     <div class="form-check">
