@@ -17,7 +17,7 @@
 
     <h1 class="text-center mb-1"> {{ book.title }} </h1>
     <h5 class="text-center mb-5"> {% for author in book.author.all|slice:"1" %}
-        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.nickname }}</em></a> {% endfor %}
+        <a class="author" href="{% url 'books:author_books' author.id %}"><em>{{ author.name }}</em></a> {% endfor %}
     </h5>
 
     <div class="row justify-content-md-center">
@@ -87,7 +87,7 @@
                 <li class="nav-item">
                     <a  class="nav-link" rel="panel3" href="#">Reviews ({{reviews_count}})</a>
                 </li>
-                
+
                 {% if user.id and review_allowed %}
                 <li class="nav-item ml-auto">
                     <a  class="nav-link" rel="panel4" href="#"><strong>Add Review</strong></a>
@@ -109,7 +109,7 @@
                 {% for review, stats in review_objs %}
                 <div class="review mb-5">
                     <h5 class="reviewer mb-1">
-                        By {% if review.anonymous or not review.author.username %}Anonymous {% else %}{{review.author.username}}{% endif %}
+                        By {% if review.anonymous %}Anonymous {% else %} {%if review.author.user.nick_name %}{{review.author.user.nick_name}} {% else %}{{review.author.username}}{% endif %}{% endif %}
                     </h5>
                     <span class="d-block date"><em>On {{ review.created_at|date:"M d, Y" }}</em></span>
                     <div class="rating mb-2">
