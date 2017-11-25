@@ -6,6 +6,7 @@ app_name = 'books'
 urlpatterns = [
     # /books/  this will show a page with all the Books
     url(r'^$', views.book_list, name='index'),
+    url(r'^search/?$', views.search, name='search_results'),
 
     # /books/genre/5/ this will show a page with the list of books in genre
     url(r'^genres/$', views.book_genre, name="books_genres"),
