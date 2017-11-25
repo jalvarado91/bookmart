@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
-{% block title %}{% if q %}{{ q }}{% else %}All Books{% endif %} | {{ block.super }}{% endblock %}
+{% block title %}Books | {{ block.super }}{% endblock %}
 
 {% block content %}
   {% if all_books %}

@@ -4,6 +4,7 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.db.models import Count, Avg
 from django.shortcuts import render
 from django.views import generic
+from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from carts.forms import CartAddBookForm
 from django.contrib import messages
@@ -49,14 +50,19 @@ class AllAuthorsView(generic.TemplateView):
         return context
 
 
+def search(request):
+    books = Book.objects.all().order_by("title")
+    q = request.GET.get('q')
+    if q:
+        books = books.filter(title__icontains=q) | \
+            books.filter(author__name__icontains=q) | \
+            books.filter(genre__name__icontains=q)
+        return render(request, 'book_search.html', {'books': books, 'query': q})
+    return HttpResponse('Please submit a search term.')
+
+
 def book_list(request):
     all_books = Book.objects.all().order_by("title")
-    query = request.GET.get("q")
-    if query:
-        all_books = all_books.filter(title__icontains=query).distinct() | \
-            all_books.filter(authors__name__icontains=query).distinct() | \
-            all_books.filter(genre__icontains=query).distinct()
-
     paginator = Paginator(all_books, 12)
     page = request.GET.get('page')
     try:
@@ -66,11 +72,6 @@ def book_list(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
-    if query:
-        query = query
-    else:
-        query = "Books"
-
     index = books.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 5 if index >= 5 else 0
@@ -78,8 +79,6 @@ def book_list(request):
     page_range = paginator.page_range[start_index:end_index]
 
     context = {
-        "search": query,
-        "title": "Displaying all Results for: ",
         'page': page,
         'books': books,
         'all_books': all_books,
@@ -169,33 +168,36 @@ def book_review(request, book_id):
                 if not review_data['rating'] and not review_data['comments']:
                     raise Exception("Need rating or comment")
                 review = create_review(
-                    book_id, 
+                    book_id,
                     user,
-                    review_data['rating'], 
-                    review_data['comments'], 
+                    review_data['rating'],
+                    review_data['comments'],
                     review_data['anonymous']
                 )
                 review.save()
-                messages.add_message(request, messages.INFO, 'Your review was saved!')
+                messages.add_message(request, messages.INFO,
+                                     'Your review was saved!')
                 return HttpResponse("Saved")
         except Exception as inst:
             return HttpResponseBadRequest(inst)
     return HttpResponse("OK")
-    
-## Helpers
+
+# Helpers
+
 
 def can_review_book(request, book):
     if request.user.is_authenticated:
         # check if have purchase
         user = request.user
-        try: 
+        try:
             purchases = Purchase.objects.filter(user=user, book=book)
             return len(purchases) > 0
         except Purchase.DoesNotExist:
             print("purchase not found")
             return False
-    else: 
+    else:
         return False
+
 
 def create_review(book_id, user, rating, comments, anonymous):
     book = Book.objects.get(pk=book_id)
@@ -204,8 +206,10 @@ def create_review(book_id, user, rating, comments, anonymous):
         incognito = anonymous
     if rating == 0:
         rating = None
-    review = Review(book=book, author=user, rating=rating, comments=comments, anonymous=incognito)
+    review = Review(book=book, author=user, rating=rating,
+                    comments=comments, anonymous=incognito)
     return review
+
 
 def get_review_stats(reviews):
     aggs = []
